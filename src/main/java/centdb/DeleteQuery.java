@@ -18,13 +18,13 @@ public class DeleteQuery {
         String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
-        query = "DELETE FROM table WHERE h='mitul'";
+        query = "DELETE FROM table WHERE id='mitul'";
 
         String insertRegex = "(DELETE\\s+FROM)\\s+(\\S+)\\s+(WHERE)\\s+(\\S+)\\s*=\\s*(\\S+)\\s*\\;?";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
         if (matcher.find()) {
-            String tableName = "", columnName = "", columnValue = "", fileName = "";
+            String tableName = "", columnName = "", columnValue = "", filePath = "";
             List<String> columns, values;
             // Group 1 - DELETE FROM
             // Group 2 - table_name
@@ -41,10 +41,10 @@ public class DeleteQuery {
 
             File directory = new File("database");
             if (directory.exists()) {
-                fileName = Common.getTablesFileNameFromDatabase(directory, tableName);
-                if (!fileName.isEmpty()) {
+                filePath = Common.getTablesFilePathFromDatabase(directory, tableName);
+                if (!filePath.isEmpty()) {
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
                         String firstLine = bufferedReader.readLine();
                         System.out.println(firstLine);
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
@@ -66,6 +66,5 @@ public class DeleteQuery {
         } else {
             System.out.println("Please provide valid delete query.");
         }
-
     }
 }

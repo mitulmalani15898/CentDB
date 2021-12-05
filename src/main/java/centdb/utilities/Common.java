@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Common {
-    public static String getTablesFileNameFromDatabase(File directory, String tableName) {
+    public static String getTablesFilePathFromDatabase(File directory, String tableName) {
         File[] files = directory.listFiles();
         String fileName = "";
         for (File file : files) {

@@ -24,7 +24,7 @@ public class InsertQuery {
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
         if (matcher.find()) {
-            String tableName = "", columnNames = "", columnValues = "", fileName = "";
+            String tableName = "", columnNames = "", columnValues = "", filePath = "";
             List<String> columns, values;
             // Group 1 - INSERT INTO
             // Group 2 - table_name
@@ -39,10 +39,10 @@ public class InsertQuery {
 
             File directory = new File("database");
             if (directory.exists()) {
-                fileName = Common.getTablesFileNameFromDatabase(directory, tableName);
-                if (!fileName.isEmpty()) {
+                filePath = Common.getTablesFilePathFromDatabase(directory, tableName);
+                if (!filePath.isEmpty()) {
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         if (columns.size() == values.size() && columns.size() == tableColumnNames.size()) {
