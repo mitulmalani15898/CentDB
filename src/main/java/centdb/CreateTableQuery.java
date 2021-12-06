@@ -8,12 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateTableQuery {
+    public static boolean flag;
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String query = "";
-        // System.out.println("Enter query:");
-        // query = scanner.nextLine();
-        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255) REFERENCES Persons(PersonID),FirstName varchar(255),Address varchar(255),City varchar(255));";
+        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));";
         String createTableRegex = "(CREATE\\s+TABLE)\\s+(\\S+)\\s*(\\((\\S+)\\s(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+PRIMARY KEY\\s*)?(,\\s*(\\S+)\\s+(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+REFERENCES\\s+(\\S+)\\((\\S+)\\))?)*\\))";
         Pattern regex = Pattern.compile(createTableRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
@@ -39,25 +38,41 @@ public class CreateTableQuery {
                     pipeseparated.add(values.get(i).replaceAll(" ", "|"));
                 }
             }
-
             for (int i = 0; i < pipeseparated.size(); i++) {
                 characterseparated.add(pipeseparated.get(i).replaceAll("[\\\\[\\\\](]", "|").replaceAll("[\\\\[\\\\])]", ""));
             }
             metadata.put(tableName,characterseparated);
-            System.out.println(metadata);
             File directory = new File("metadata");
             String file= directory+File.separator+tableName+"Metadata"+".txt";
-            File metaFile=new File(file);
+            String refrences="REFERENCES";
+            String foreignTable;
+
             if (directory.exists()) {
-                    FileWriter writer = new FileWriter(metaFile);
-                    for(String str: characterseparated) {
-                        writer.write(str + System.lineSeparator());
+                    for(String rows: characterseparated) {
+                        if(rows.contains("REFERENCES")){
+                            foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata.txt";
+                            boolean check = new File(directory, foreignTable).exists();
+                            if(!check){
+                                flag=false;
+                                System.out.println("Foreign table doesnot exists so table not created");
+                                break;
+                            }
+                        else{
+                            System.out.println("Table created successfully!!");
+                            }}}
+                        File metaFile=new File(file);
+                        FileWriter writer = new FileWriter(metaFile);
+                        for(String rows: characterseparated){
+                            if (flag=true){
+                            writer.write(rows + System.lineSeparator());
+                        }
                     }
+
                 writer.close();
-            } else {
+        } else {
                 System.out.println("Database does not exist.");
             }
-
-    }
+        }
     }
 }
+
