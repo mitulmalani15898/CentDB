@@ -2,66 +2,62 @@ package centdb;
 
 import centdb.utilities.Common;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateTableQuery {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
-        query = "INSERT INTO table(id, name, email) VALUES (11, 'def', 'ghi')";
-
-        String insertRegex = "(INSERT\\s+INTO)\\s+(\\S+)\\s*\\((.*?)\\)\\s+(VALUES)\\s+\\((.*?)\\)\\;?";
-        Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
+        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255) REFERENCES Persons(PersonID),FirstName varchar(255),Address varchar(255),City varchar(255));";
+        String createTableRegex = "(CREATE\\s+TABLE)\\s+(\\S+)\\s*(\\((\\S+)\\s(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+PRIMARY KEY\\s*)?(,\\s*(\\S+)\\s+(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+REFERENCES\\s+(\\S+)\\((\\S+)\\))?)*\\))";
+        Pattern regex = Pattern.compile(createTableRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
         if (matcher.find()) {
-            String tableName = "", columnNames = "", columnValues = "", filePath = "";
-            List<String> columns, values;
-            // Group 1 - INSERT INTO
-            // Group 2 - table_name
-            // Group 3 - column_name
-            // Group 4 - VALUES
-            // Group 5 - actual_values
+            String tableName = "", columnValues = "", filePath = "";
+            List<String> columns1 = new ArrayList<>();
+            // Group 1 - CREATE TABLE
+            // Group 2 - TestTable
+            // Group 3 - (PersonID int PRIMARY KEY,LastName varchar(255),FirstName varchar(255),Address varchar(255),City varchar(255));";
             tableName = matcher.group(2);
-            columnNames = matcher.group(3);
-            columnValues = matcher.group(5);
-            columns = Arrays.asList(columnNames.split(","));
-            values = Arrays.asList(columnValues.split(","));
+            columnValues = matcher.group(3);
+            List<String> values = Arrays.asList(columnValues.split(","));
+            List<String> pipeseparated = new ArrayList<>();
+            List<String> characterseparated=new ArrayList<>();
+            HashMap<String,List<String>> metadata=new HashMap<>();
+            for (int i = 0; i < values.size(); i++) {
+                if (values.get(i).contains("PRIMARY")) {
+                   String WithoutPk= values.get(i) .substring(1, values.get(i).lastIndexOf( "PRIMARY"));
+                   String WPk= values.get(i).substring(values.get(i).lastIndexOf( "PRIMARY" ));
+                   pipeseparated.add(((WithoutPk.replaceAll("[\\\\[\\\\](]","|").replaceAll(" ","|").replaceAll("[\\\\[\\\\])]",""))+WPk));
 
-            File directory = new File("database");
-            if (directory.exists()) {
-                filePath = Common.getTablesFilePathFromDatabase(directory, tableName);
-                if (!filePath.isEmpty()) {
-                    try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
-                        String firstLine = bufferedReader.readLine();
-                        List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
-                        if (columns.size() == values.size() && columns.size() == tableColumnNames.size()) {
-                            System.out.println("matched insert query");
-                        } else {
-                            System.out.println("Please provide valid insert query.");
-                        }
-                    } catch (IOException ioException) {
-                        System.out.println(ioException.getMessage());
-                    }
                 } else {
-                    System.out.println(tableName + " table does not exist.");
+                    pipeseparated.add(values.get(i).replaceAll(" ", "|"));
                 }
+            }
+
+            for (int i = 0; i < pipeseparated.size(); i++) {
+                characterseparated.add(pipeseparated.get(i).replaceAll("[\\\\[\\\\](]", "|").replaceAll("[\\\\[\\\\])]", ""));
+            }
+            metadata.put(tableName,characterseparated);
+            System.out.println(metadata);
+            File directory = new File("metadata");
+            String file= directory+File.separator+tableName+"Metadata"+".txt";
+            File metaFile=new File(file);
+            if (directory.exists()) {
+                    FileWriter writer = new FileWriter(metaFile);
+                    for(String str: characterseparated) {
+                        writer.write(str + System.lineSeparator());
+                    }
+                writer.close();
             } else {
                 System.out.println("Database does not exist.");
             }
-        } else {
-            System.out.println("Please provide valid insert query.");
-        }
 
+    }
     }
 }
