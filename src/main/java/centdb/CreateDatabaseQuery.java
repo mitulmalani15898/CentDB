@@ -22,9 +22,9 @@ public class CreateDatabaseQuery {
             // Group 1 - CREATE DATABASE
             // Group 2 - databasename
             createDatabaseName = matcher.group(2);
-
+            createDatabaseName=createDatabaseName.replaceAll(";","");
             System.out.println(createDatabaseName);
-            File directory = new File("databaseNewDirectory");
+            File directory = new File(createDatabaseName);
             if (directory.exists()) {
                 System.out.println("Directory already exist.");
             } else {
