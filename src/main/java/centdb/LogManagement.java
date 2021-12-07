@@ -27,7 +27,7 @@ public class LogManagement {
 		return executionTime;
 	}
 	
-	public static void generalLogs(String log, long time) throws IOException {
+	public static void generalLogs(String log, long time, String user) throws IOException {
 		general = new File(generalLogsFile);
 			if(general.createNewFile()) {
 				System.out.println("File for General Logs has been created");
@@ -35,11 +35,12 @@ public class LogManagement {
 			writeGeneral = new FileWriter(general,true);
 			String executionTime = Long.toString(time);
 			writeGeneral.append(executionTime+" --> ");
+			writeGeneral.append(user+" --> ");
 			writeGeneral.append(log+"\r\n");
 			writeGeneral.flush();		
 	}
 	
-	public static void eventLogs(String log) throws IOException {
+	public static void eventLogs(String log, String user) throws IOException {
 		event = new File(eventLogsFile);
 			if(event.createNewFile()) {
 				System.out.println("File for Event Logs has been created");
@@ -49,6 +50,7 @@ public class LogManagement {
 			SimpleDateFormat formatDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
 			timestamp = formatDate.format(date);	
 			writeEvent.append(timestamp+" --> ");
+			writeEvent.append(user+" --> ");
 			writeEvent.append(log+"\r\n");
 			writeEvent.flush();			
 	}
