@@ -43,14 +43,12 @@ public class CreateTableQuery {
             }
             metadata.put(tableName,characterseparated);
             File directory = new File("databasename");
-            String file= directory+File.separator+tableName+"Metadata"+".txt";
             String refrences="REFERENCES";
             String foreignTable;
-
             if (directory.exists()) {
                     for(String rows: characterseparated) {
                         if(rows.contains("REFERENCES")){
-                            foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata.txt";
+                            foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata";
                             boolean check = new File(directory, foreignTable).exists();
                             if(!check){
                                 flag=false;
@@ -59,7 +57,11 @@ public class CreateTableQuery {
                             }
                         else{
                             System.out.println("Table created successfully!!");
-                                File metaFile=new File(file);
+                                File tableDirectory = new File(directory+File.separator+tableName+"Directory");
+                                tableDirectory.mkdirs();
+                                File metaFile=new File(tableDirectory+File.separator+tableName+"Metadata"+".txt");
+                                File tableFile=new File(tableDirectory+File.separator+tableName+".txt");
+                                tableFile.createNewFile();
                                 FileWriter writer = new FileWriter(metaFile);
                                 for(String rows1: characterseparated){
                                     if (flag=true){
