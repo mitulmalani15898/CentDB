@@ -42,7 +42,7 @@ public class CreateTableQuery {
                 characterseparated.add(pipeseparated.get(i).replaceAll("[\\\\[\\\\](]", "|").replaceAll("[\\\\[\\\\])]", ""));
             }
             metadata.put(tableName,characterseparated);
-            File directory = new File("metadata");
+            File directory = new File("databasename");
             String file= directory+File.separator+tableName+"Metadata"+".txt";
             String refrences="REFERENCES";
             String foreignTable;
@@ -59,16 +59,17 @@ public class CreateTableQuery {
                             }
                         else{
                             System.out.println("Table created successfully!!");
-                            }}}
-                        File metaFile=new File(file);
-                        FileWriter writer = new FileWriter(metaFile);
-                        for(String rows: characterseparated){
-                            if (flag=true){
-                            writer.write(rows + System.lineSeparator());
-                        }
-                    }
+                                File metaFile=new File(file);
+                                FileWriter writer = new FileWriter(metaFile);
+                                for(String rows1: characterseparated){
+                                    if (flag=true){
+                                        writer.write(rows1 + System.lineSeparator());
+                                    }
+                                }
 
-                writer.close();
+                                writer.close();
+                            }}}
+
         } else {
                 System.out.println("Database does not exist.");
             }
