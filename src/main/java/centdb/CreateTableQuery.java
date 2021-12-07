@@ -1,7 +1,5 @@
 package centdb;
 
-import centdb.utilities.Common;
-
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -9,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class CreateTableQuery {
     public static boolean flag;
+    public static String otherKey;
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String query = "";
@@ -44,38 +43,57 @@ public class CreateTableQuery {
             metadata.put(tableName,characterseparated);
             File directory = new File("databasename");
             String refrences="REFERENCES";
+            String foreignDirectory;
             String foreignTable;
+            String Table;
+            String Foreginkey = null;
             if (directory.exists()) {
                     for(String rows: characterseparated) {
                         if(rows.contains("REFERENCES")){
-                            foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata";
-                            boolean check = new File(directory, foreignTable).exists();
-                            if(!check){
-                                flag=false;
-                                System.out.println("Foreign table doesnot exists so table not created");
-                                break;
+                            foreignDirectory=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata";
+                    foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata";
+                    boolean check = new File(directory+File.separator+foreignDirectory+File.separator+foreignTable+".txt").exists();
+                    if(!check){
+                        flag=false;
+                        System.out.println("File table doesnot exists so table not created");
+                        break;
+                    }
+        else {
+                        File ForeignFile = new File(directory + File.separator + foreignDirectory + File.separator + foreignTable + ".txt");
+                        Scanner myReader = new Scanner(ForeignFile);
+                        while (myReader.hasNextLine()) {
+                            String data = myReader.nextLine();
+                            if (data.contains("PRIMARY")) {
+                                otherKey = data.substring(0, data.indexOf("|"));
                             }
-                        else{
-                            System.out.println("Table created successfully!!");
-                                File tableDirectory = new File(directory+File.separator+tableName+"Directory");
-                                tableDirectory.mkdirs();
-                                File metaFile=new File(tableDirectory+File.separator+tableName+"Metadata"+".txt");
-                                File tableFile=new File(tableDirectory+File.separator+tableName+".txt");
-                                tableFile.createNewFile();
-                                FileWriter writer = new FileWriter(metaFile);
-                                for(String rows1: characterseparated){
-                                    if (flag=true){
-                                        writer.write(rows1 + System.lineSeparator());
-                                    }
-                                }
+                        }
 
-                                writer.close();
-                            }}}
+                        Table = rows.substring(rows.indexOf("REFERENCES") + refrences.length() + 1, rows.lastIndexOf("|"));
+                        Foreginkey = rows.substring(rows.indexOf(Table) + Table.length() + 1);
+                        if (Foreginkey.equals(otherKey)){
+                            System.out.println("Table has been created successfully!!");
+                        File tableDirectory = new File(directory + File.separator + tableName + "Directory");
+                        tableDirectory.mkdirs();
+                        File metaFile = new File(tableDirectory + File.separator + tableName + "Metadata" + ".txt");
+                        File tableFile = new File(tableDirectory + File.separator + tableName + ".txt");
+                        tableFile.createNewFile();
+                        FileWriter writer = new FileWriter(metaFile);
+                        for (String rows1 : characterseparated) {
+                            if (flag = true) {
+                                writer.write(rows1 + System.lineSeparator());
+                            }
+                        }
 
-        } else {
-                System.out.println("Database does not exist.");
-            }
-        }
+                        writer.close();
+                    }
+                        else {
+                            System.out.println("Foreign key doesnot match");
+                        }
     }
-}
+     }}
+
+            }
+    }}}
+
+
 
