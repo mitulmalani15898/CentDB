@@ -14,7 +14,7 @@ public class UseDatabaseQuery {
         String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
-        query = "USE abcd;";
+        query = "USE databasename";
 
         String useDatabaseRegex = "(USE\\s+)(\\S+)\\;?";
         Pattern regex = Pattern.compile(useDatabaseRegex, Pattern.CASE_INSENSITIVE);
@@ -24,15 +24,15 @@ public class UseDatabaseQuery {
             // Group 1 - Use DATABASE
             databaseName = matcher.group(2);
 
-            System.out.println(databaseName);
-            File directory = new File("databaseNewDirectory");
+            databaseName=databaseName.replaceAll(";","");
+            File directory = new File(databaseName);
             if (directory.exists()) {
-                databasename=databaseName;
+                System.out.println("USE "+databaseName);
             } else {
                 System.out.println("Directory does not exist.");
             }
         } else {
-            System.out.println("Please provide valid create databse query.");
+            System.out.println("Please provide valid  databse query.");
         }
     }
 }
