@@ -26,6 +26,7 @@ public class CreateTableQuery {
             List<String> values = Arrays.asList(columnValues.split(","));
             List<String> pipeseparated = new ArrayList<>();
             List<String> characterseparated=new ArrayList<>();
+            List<String>columnsname=new ArrayList<>();
             HashMap<String,List<String>> metadata=new HashMap<>();
             for (int i = 0; i < values.size(); i++) {
                 if (values.get(i).contains("PRIMARY")) {
@@ -37,9 +38,11 @@ public class CreateTableQuery {
                     pipeseparated.add(values.get(i).replaceAll(" ", "|"));
                 }
             }
-            for (int i = 0; i < pipeseparated.size(); i++) {
+             for (int i = 0; i < pipeseparated.size(); i++) {
                 characterseparated.add(pipeseparated.get(i).replaceAll("[\\\\[\\\\](]", "|").replaceAll("[\\\\[\\\\])]", ""));
+                columnsname.add(pipeseparated.get(i).substring(0,pipeseparated.get(i).indexOf("|")));
             }
+             System.out.println(columnsname);
             metadata.put(tableName,characterseparated);
             File directory = new File("databasename");
             String refrences="REFERENCES";
@@ -75,16 +78,20 @@ public class CreateTableQuery {
                         File tableDirectory = new File(directory + File.separator + tableName + "Directory");
                         tableDirectory.mkdirs();
                         File metaFile = new File(tableDirectory + File.separator + tableName + "Metadata" + ".txt");
-                        File tableFile = new File(tableDirectory + File.separator + tableName + ".txt");
-                        tableFile.createNewFile();
                         FileWriter writer = new FileWriter(metaFile);
                         for (String rows1 : characterseparated) {
                             if (flag = true) {
                                 writer.write(rows1 + System.lineSeparator());
                             }
                         }
-
                         writer.close();
+                        File tableFile = new File(tableDirectory + File.separator + tableName + ".txt");
+                        tableFile.createNewFile();
+                        FileWriter columnwriter = new FileWriter(tableFile);
+                        for(String columns : columnsname){
+                            columnwriter.write(columns + "|");
+                        }
+                        columnwriter.close();
                     }
                         else {
                             System.out.println("Foreign key doesnot match");
