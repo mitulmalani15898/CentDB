@@ -6,12 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateDatabaseQuery {
-    public void createDatabaseQuery(String query, String databaseName) {
-        Scanner scanner = new Scanner(System.in);
-//        String query = "";
-        // System.out.println("Enter query:");
-        // query = scanner.nextLine();
-        query = "CREATE DATABASE database1;";
+    public void createDatabaseQuery(String query) {
+//        query = "CREATE DATABASE database1;";
         String createDatabaseRegex = "(CREATE\\s+DATABASE)\\s+(\\S+)\\;?";
         Pattern regex = Pattern.compile(createDatabaseRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
@@ -21,7 +17,7 @@ public class CreateDatabaseQuery {
             // Group 2 - databasename
             createDatabaseName = matcher.group(2);
             createDatabaseName = createDatabaseName.replaceAll(";", "");
-            System.out.println(createDatabaseName);
+            System.out.println(createDatabaseName + "database created successfully.");
             File directory = new File("database" + File.separator + createDatabaseName);
             if (directory.exists()) {
                 System.out.println("Directory already exist.");

@@ -52,7 +52,7 @@ public class WriteQueries {
                     if (words.get(1).equals("table")) {
                         createTable.createTableQuery(query, database);
                     } else {
-                        createDatabase.createDatabaseQuery(query, database);
+                        createDatabase.createDatabaseQuery(query);
                     }
                     break;
                 default:
