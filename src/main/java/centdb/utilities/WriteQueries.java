@@ -1,7 +1,10 @@
 package centdb.utilities;
 
 import centdb.DBQuery.*;
+import centdb.LogManagement;
+import centdb.TransactionProcessing;
 import centdb.dbquery.UpdateQuery;
+import centdb.usermodule.UserModule;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,31 +31,43 @@ public class WriteQueries {
             String query = scanner.nextLine();
             List<String> words = Arrays.asList(query.split(" "));
             String check = words.get(0).trim().toLowerCase();
+            String userId = UserModule.loginUserId;
 
             switch (check) {
+                case "begin":
+                    TransactionProcessing.queryIdentify(query);
+                    break;
                 case "select":
+                    LogManagement.queryLogs(query, userId, database);
                     select.selectQuery(query, database);
                     break;
                 case "insert":
+                    LogManagement.queryLogs(query, userId, database);
                     insert.insertQuery(query, database);
                     break;
                 case "update":
+                    LogManagement.queryLogs(query, userId, database);
                     update.updateQuery(query, database);
                     break;
                 case "drop":
+                    LogManagement.queryLogs(query, userId, database);
                     drop.dropQuery(query, database);
                     break;
                 case "delete":
+                    LogManagement.queryLogs(query, userId, database);
                     delete.deleteQuery(query, database);
                     break;
                 case "use":
+                    LogManagement.queryLogs(query, userId, database);
                     useDatabase.useDatabaseQuery(query);
                     break;
                 case "create":
                     if (words.get(1).equals("table")) {
+                        LogManagement.queryLogs(query, userId, database);
                         createTable.createTableQuery(query, database);
                     } else {
-                        createDatabase.createDatabaseQuery(query, database);
+                        LogManagement.queryLogs(query, userId, database);
+                        createDatabase.createDatabaseQuery(query);
                     }
                     break;
                 default:
