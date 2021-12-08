@@ -1,7 +1,6 @@
-package centdb.DBQuery;
+package centdb;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,48 +8,52 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ERDCreation {
+    private static String filed;
+    private static String fk;
     public static  void main (String[] args) throws IOException {
-        File directory = new File("databasename");
+        File directory = new File("database"+File.separator+"database1");
         File[] listOfFiles = directory.listFiles();
         List<String> tableName=new ArrayList<>();
-        List<String> tableData=new ArrayList<>();
-        FileWriter myWriter = new FileWriter("ERD.txt");
+        FileWriter myFileWriter = new FileWriter("ERD.txt");
+        String references="REFERENCES";
         for (int i = 0; i < listOfFiles.length; i++) {
             File file = listOfFiles[i];
             File[] eachFile=file.listFiles();
             for(int j=0;j<eachFile.length;j++) {
                 if (String.valueOf(eachFile[j]).contains("Metadata")){
                 File tablemetadata = new File(String.valueOf(eachFile[j]));
-                tableName.add(String.valueOf(file).replaceAll(String.valueOf(directory), "").replaceAll("Directory", "").substring(1));
-//                System.out.println(tablemetadata);
+
+                tableName.add(String.valueOf(file).replaceAll(String.valueOf(directory), "")
+                        .replaceAll("Directory", ""));
 
                     Scanner myTableReader = new Scanner(tablemetadata);
-                    myWriter.write("\n");
-                    myWriter.write("TABLE NAME: "+ tableName.get(i).toUpperCase());
-                    myWriter.write("\n");
-                    myWriter.write("--------------------------------------------------");
-                    myWriter.write("\n");
-                    myWriter.write("DATA: ");
+                    myFileWriter.write("\n");
+                    myFileWriter.write("TABLE NAME: "+ tableName.get(i).toUpperCase().substring(String.valueOf(directory).length()+1));
+                    myFileWriter.write("\n");
+                    myFileWriter.write("--------------------------------------------------");
+                    myFileWriter.write("\n");
+                    myFileWriter.write("DATA: ");
                     while (myTableReader.hasNextLine()) {
                         String tabledata = myTableReader.nextLine();
-                        myWriter.write(tabledata);
-                        myWriter.write("\n");
-//                        myWriter.write("\n");
-                    }
+                        myFileWriter.write(tabledata);
+                        myFileWriter.write("\n");
 
-//                    myTableReader.close();
-//                    for(int k=0;k<tableData.size();k++){
-//                        System.out.println(tableData.get(k));
-
+                        if (tabledata.contains("REFERENCES|")){
+                            filed=tabledata.substring(0,tabledata.indexOf("|"));
+                            fk=tabledata.substring(tabledata.indexOf("REFERENCES") +references.length()+1);
+                            if(fk.contains("|")){
+                            myFileWriter.write("\n");
+                            myFileWriter.write("RELATIONSHIP: table "+tableName.get(i).substring(String.valueOf(directory).length()+1) +" "+filed+" has  <=> with Table "+ fk);
+                            tableName.get(i);
+                            myFileWriter.write("\n");
+                        }}
                     }
-//
                 }
-
+                }
         }
-//            System.out.println(tableName.get(i));
-        myWriter.close();
+        myFileWriter.close();
+        System.out.println("ERD created successfully!!!!");
             }
-
         }
 
 

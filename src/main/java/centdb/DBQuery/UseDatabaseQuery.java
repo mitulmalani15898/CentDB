@@ -1,4 +1,4 @@
-package centdb.DBQuery;
+package centdb;
 
 import centdb.utilities.Common;
 
@@ -14,7 +14,7 @@ public class UseDatabaseQuery {
         String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
-        query = "USE databasename";
+        query = "USE database1";
 
         String useDatabaseRegex = "(USE\\s+)(\\S+)\\;?";
         Pattern regex = Pattern.compile(useDatabaseRegex, Pattern.CASE_INSENSITIVE);
@@ -25,7 +25,7 @@ public class UseDatabaseQuery {
             databaseName = matcher.group(2);
 
             databaseName=databaseName.replaceAll(";","");
-            File directory = new File(databaseName);
+            File directory = new File("database"+File.separator+databaseName);
             if (directory.exists()) {
                 System.out.println("USE "+databaseName);
             } else {

@@ -1,0 +1,4 @@
+id|product_name|product_price
+1|chair|85.65
+2|table|149.99
+3|laptop|999.99
