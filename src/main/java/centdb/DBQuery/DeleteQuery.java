@@ -12,19 +12,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DeleteQuery {
     public void deleteQuery(String query, String databaseName) {
-        Scanner scanner = new Scanner(System.in);
-//        String query = "";
-        // System.out.println("Enter query:");
-        // query = scanner.nextLine();
-        query = "DELETE FROM customer WHERE customer_id=1";
-
-        String insertRegex = "(DELETE\\s+FROM)\\s+(\\S+)\\s+(WHERE)\\s+(\\S+)\\s*=\\s*(\\S+)\\s*\\;?";
+        String insertRegex = "(DELETE\\s+FROM)\\s+(\\S+)\\s+(WHERE)\\s+(\\S+)\\s*=\\s*(\\S+)\\s*\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
         if (matcher.find()) {
@@ -39,7 +32,7 @@ public class DeleteQuery {
             columnName = matcher.group(4);
             columnValue = matcher.group(5);
 
-            File directory = new File("database\\MyDatabase");
+            File directory = new File("database" + File.separator + databaseName);
             if (directory.exists()) {
                 filePath = Common.getTablesFilePathFromDatabase(directory, tableName);
                 if (!filePath.isEmpty()) {
@@ -50,15 +43,16 @@ public class DeleteQuery {
                         if (tableColumnNames.contains(columnName)) {
                             int index = tableColumnNames.indexOf(columnName);
                             List<String> fileData, singleData;
-                            fileData = new ArrayList<>(Files.readAllLines(Paths.get("database/MyDatabase/" + tableName + "/data.txt"), StandardCharsets.UTF_8));
+                            fileData = new ArrayList<>(Files.readAllLines(Paths.get("database/" + databaseName + "/" + tableName + "/data.txt"), StandardCharsets.UTF_8));
                             for (int i = 0; i < fileData.size(); i++) {
                                 singleData = Arrays.asList(fileData.get(i).split("\\|"));
                                 if (columnValue.equals(singleData.get(index))) {
                                     fileData.remove(i);
+                                    System.out.println("Record deleted successfully.");
                                     break;
                                 }
                             }
-                            Files.write(Paths.get("database/MyDatabase/" + tableName + "/data.txt"), fileData, StandardCharsets.UTF_8);
+                            Files.write(Paths.get("database/" + databaseName + "/" + tableName + "/data.txt"), fileData, StandardCharsets.UTF_8);
                         } else {
                             System.out.println(columnName + " column does not exist.");
                         }

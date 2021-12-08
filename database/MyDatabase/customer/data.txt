@@ -1,3 +1,5 @@
 customer_id|name|email|address
-2|meet|meet@gmail.com|4565 Hey st
-11|manthan|moradia|quebec
+1|mitul|mitul@gmail.com|halifax
+2|meet|meet@gmail.com|guelph
+3|manthan|manthan@gmail.com|montreal
+10|jaynil|jaynil@gmail.com|montreal

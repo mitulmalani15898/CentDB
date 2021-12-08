@@ -7,18 +7,18 @@ import centdb.utilities.WriteQueries;
 import java.io.IOException;
 
 public class MenuOperation {
-    public void performOperation(int choice) throws IOException {
+    public void performOperation(String choice) throws IOException {
         switch (choice) {
-            case 1:
+            case "1":
                 //Writing queries
                 WriteQueries.writeQuery();
                 break;
-            case 2:
+            case "2":
                 //Export
                 SqlDumpGenerator sqlDumpGenerator = new SqlDumpGenerator();
                 sqlDumpGenerator.generateSqlDump();
                 break;
-            case 3:
+            case "3":
                 //Data model
                 try {
                     ERDCreation erdCreation = new ERDCreation();
@@ -27,7 +27,7 @@ public class MenuOperation {
                     System.out.println(ioException.getMessage());
                 }
                 break;
-            case 4:
+            case "4":
                 //Analytics
 
                 break;

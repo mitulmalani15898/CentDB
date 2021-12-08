@@ -14,13 +14,13 @@ public class MenuOptions {
         System.out.println("4. Analytics");
         System.out.println("Enter your choice");
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
+        String choice = sc.nextLine();
 
         menuOperation.performOperation(choice);
         System.out.println("Do you want to continue with other options, type yes or no");
         Scanner s = new Scanner(System.in);
         String continueWithOtherChoice = s.nextLine();
-        if(continueWithOtherChoice.equals("yes")){
+        if (continueWithOtherChoice.equals("yes")) {
             options();
             s.close();
         } else {

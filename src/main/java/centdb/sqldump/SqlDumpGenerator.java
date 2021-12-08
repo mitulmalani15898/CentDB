@@ -45,16 +45,15 @@ public class SqlDumpGenerator {
         Scanner scanner = new Scanner(System.in);
         String database = "";
         System.out.println("Enter database name for exporting SQL dump:");
-        // database = scanner.nextLine();
-        database = "database\\MyDatabase";
+        database = scanner.nextLine();
+        database = "database" + File.separator + database;
         List<String> databaseName = Arrays.asList(database.split("\\\\"));
 
         if (!database.isEmpty()) {
             File directory = new File(database);
             if (directory.exists()) {
                 File sqlDumpDirectory = new File("SqlDump");
-                System.out.println(sqlDumpDirectory.getAbsolutePath());
-                File sqlDumpFile = new File(sqlDumpDirectory.getAbsolutePath() + "\\" + databaseName.get(1) + "_sql_dump.sql");
+                File sqlDumpFile = new File(sqlDumpDirectory.getAbsolutePath() + File.separator + databaseName.get(1) + "_sql_dump.sql");
                 if (!sqlDumpFile.exists()) {
                     try {
                         sqlDumpFile.createNewFile();
@@ -92,6 +91,7 @@ public class SqlDumpGenerator {
                         fileWriter.append(insertStatement);
                     }
                     fileWriter.close();
+                    System.out.println("Sql dump has been created successfully.");
                 } catch (IOException ioException) {
                     System.out.println(ioException.getMessage());
                 }

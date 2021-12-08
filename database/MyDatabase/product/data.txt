@@ -1,4 +1,5 @@
 product_id|product_name|product_price|customer_id
 1|chair|85.65|1
 2|table|149.99|2
-3|laptop|999.99|11
+3|laptop|999.99|114|bed|68.96|10
+4|bed|68.96|10
