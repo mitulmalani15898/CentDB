@@ -3,7 +3,7 @@ package centdb.utilities;
 import centdb.DBQuery.DeleteQuery;
 import centdb.DBQuery.DropQuery;
 import centdb.DBQuery.InsertQuery;
-import centdb.UseDatabaseQuery;
+import centdb.DBQuery.UseDatabaseQuery;
 import centdb.dbquery.SelectQuery;
 import centdb.dbquery.UpdateQuery;
 
@@ -17,7 +17,7 @@ public class WriteQueries {
     private static InsertQuery insert = new InsertQuery();
     private static DropQuery drop = new DropQuery();
     private static DeleteQuery delete = new DeleteQuery();
-    private  static UseDatabaseQuery use = new UseDatabaseQuery();
+    private static UseDatabaseQuery useDatabase = new UseDatabaseQuery();
 
     public static void writeQuery() {
         String choice = "";
@@ -49,7 +49,7 @@ public class WriteQueries {
                     delete.deleteQuery(query, database);
                     break;
                 case "use":
-//                    UseDatabaseQuery.
+                    useDatabase.useDatabaseQuery(query);
                     break;
                 case "create":
                     if (words.get(1).equals("table")) {

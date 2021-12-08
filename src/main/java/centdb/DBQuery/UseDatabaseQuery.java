@@ -1,6 +1,4 @@
-package centdb;
-
-import centdb.utilities.Common;
+package centdb.DBQuery;
 
 import java.io.File;
 import java.util.Scanner;
@@ -9,9 +7,9 @@ import java.util.regex.Pattern;
 
 public class UseDatabaseQuery {
     public static String databasename;
-    public static void main(String[] args) {
+    public void useDatabaseQuery(String query) {
         Scanner scanner = new Scanner(System.in);
-        String query = "";
+//        String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
         query = "USE database1";
