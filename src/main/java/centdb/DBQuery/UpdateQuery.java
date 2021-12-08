@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class UpdateQuery {
     ColumnDataType obj = new ColumnDataType();
-    public void updateQuery(String query,String database){
-        System.out.println(query);
+    public static void updateQuery(String query,String database){
+
         List<String> ls = Arrays.asList(query.split(" "));
         Pattern pattern = Pattern.compile(updateQuery,Pattern.CASE_INSENSITIVE);
         Matcher match = pattern.matcher(query);
@@ -23,7 +23,7 @@ public class UpdateQuery {
         while(match.find()){
             tableName = ls.get(1);
             int start = 3;
-            File directory = new File(database+"/"+tableName);
+            File directory = new File("database/"+database+"/"+tableName);
             HashMap<String,String> columnsToUpdate = new HashMap<String,String>();
             while(ls.indexOf("where")>start || ls.indexOf("WHERE")>start){
                 String temp = "";
@@ -49,13 +49,13 @@ public class UpdateQuery {
 
             int [] map = new int [columnsToUpdate.size()];
             try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(directory+"/"+tableName+".txt"));
-                FileWriter writer = new FileWriter(directory+"/"+tableName+"new.txt");
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(directory+"/data.txt"));
+                FileWriter writer = new FileWriter(directory+"/datanew.txt");
                 String firstLine = bufferedReader.readLine();
                 List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                 String temp = firstLine+"\n";
                 int conditionColumnIndex = tableColumnNames.indexOf(ls.get(start+1));
-                System.out.println("Index: "+conditionColumnIndex);
+
                 int i = 0;
                 for(String col: tableColumnNames){
                     if(columnsToUpdate.containsKey(col)){
@@ -65,26 +65,34 @@ public class UpdateQuery {
                         i++;
                     }
                 }
+                //System.out.println("end");
                 String line = null;
                 while((line=bufferedReader.readLine())!=null){
 
                     int k = 0;
-//                    StringBuilder strUpdate = new StringBuilder(line);
                     List<String> check = Arrays.asList(line.split("\\|"));
+
 
                     if(check.get(conditionColumnIndex).equals(ls.get(start+3).substring(0,ls.get(start+3).length()-1))){
 //                        System.out.println("Contains");
                         int j = 0;
+
                         for(String ch:check){
-                            if(k==map[j]){
+                            if(j<map.length){
+                                if(k==map[j]){
 //                                System.out.println("Index: "+map[j]+"  " +tableColumnNames.get(j));
-                                temp += columnsToUpdate.get(tableColumnNames.get(map[j]));
-                                temp += "|";
-                                j++;
+                                    temp += columnsToUpdate.get(tableColumnNames.get(map[j]));
+                                    temp += "|";
+                                    j++;
+                                }else{
+                                    temp += ch;
+                                    temp += "|";
+                                }
                             }else{
                                 temp += ch;
                                 temp += "|";
                             }
+
                             k++;
                         }
                     }else{
@@ -92,7 +100,9 @@ public class UpdateQuery {
                     }
                     temp += "\n";
                 }
+
                 writer.write(temp);
+
                 writer.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -103,4 +113,5 @@ public class UpdateQuery {
         }
 
     }
+
 }

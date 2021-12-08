@@ -13,7 +13,7 @@ public class ReleaseLock {
     public static File releaseFile;
     public static String directory;
     public ReleaseLock(String directory){
-        releaseFile = new File(directory+"/"+"LockFile.txt");
+        releaseFile = new File("database/"+directory+"/"+"LockFile.txt");
         this.directory = directory;
         try {
             releaseFile.createNewFile();
@@ -40,7 +40,7 @@ public class ReleaseLock {
             for(String updated:lockedFinal){
                 temp+=updated+"\n";
             }
-            FileWriter writer = new FileWriter(directory+"/"+"LockFile.txt");
+            FileWriter writer = new FileWriter("database/"+directory+"/"+"LockFile.txt");
             writer.write(temp);
             writer.close();
 
