@@ -55,6 +55,7 @@ public class ApplyLock {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+        System.out.println("Applied Lock");
 
     }
 }

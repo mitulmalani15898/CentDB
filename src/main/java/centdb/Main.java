@@ -11,10 +11,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static String databaseName = "database";
+    public static final String databaseName = "database";
+    public static final ApplyLock applyNewLock = new ApplyLock("database");
+    ReleaseLock releaseOldLock = new ReleaseLock("database");
     public static void main(String[] args) {
-        ApplyLock applyNewLock = new ApplyLock("database");
-        ReleaseLock releaseOldLock = new ReleaseLock("database");
+
         Scanner scn = new Scanner(System.in);
         System.out.println("Enter the select query");
         String input;

@@ -47,7 +47,8 @@ public class ReleaseLock {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println("Release Lock");
     }
+
 
 }
