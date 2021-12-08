@@ -22,36 +22,27 @@ public class LogManagement {
     private static FileWriter writeEvent;
     private static FileWriter writeQuery;
 
-    public static long findExecutionTime() {
-        long startTime = System.currentTimeMillis();
-        //execute the query i.e. Call the query executer
-        long endTime = System.currentTimeMillis();
-        long executionTime = endTime - startTime;
-        return executionTime;
-    }
-
     public static String stateDatabase(String databaseName) {
         String state = "";
-        String databasePath = "./" + databaseName + "/";
+        String databasePath = "./database/" + databaseName + "/";
         File[] allFiles = new File(databasePath).listFiles();
         state = state + "Tables:" + allFiles.length;
         int records = 0;
         for (int i = 0; i < allFiles.length; i++) {
+//        	System.out.println(allFiles[i]);
             BufferedReader readFile;
             try {
-                readFile = new BufferedReader(new FileReader(allFiles[i]));
+                readFile = new BufferedReader(new FileReader(allFiles[i]+"/data.txt"));
                 while (readFile.readLine() != null) {
                     records++;
                 }
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         records = records - allFiles.length;
-
         state = state + "; Number of Records:" + records;
-
+//        System.out.println(state);
         return state;
     }
 
@@ -64,7 +55,6 @@ public class LogManagement {
         writeGeneral = new FileWriter(general, true);
 
         String state = stateDatabase(databaseName);
-
         String executionTime = Long.toString(time);
         writeGeneral.append(executionTime + " milliseconds --> ");
         writeGeneral.append(user + " --> ");

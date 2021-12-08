@@ -13,16 +13,8 @@ public class CreateTableQuery {
         Scanner scanner = new Scanner(System.in);
 //        String query = "";
 
-        //***
-        long startTime = System.currentTimeMillis();
-        //execute the query i.e. Call the query executer
-        //***
-
 //        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));";
         String createTableRegex = "(CREATE\\s+TABLE)\\s+(\\S+)\\s*(\\((\\S+)\\s(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+PRIMARY KEY\\s*)?(,\\s*(\\S+)\\s+(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+REFERENCES\\s+(\\S+)\\((\\S+)\\))?)*\\))";
-
-        long endTime = System.currentTimeMillis();
-        long executionTime = endTime - startTime;
 
         Pattern regex = Pattern.compile(createTableRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);

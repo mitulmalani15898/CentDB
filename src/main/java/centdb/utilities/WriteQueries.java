@@ -3,7 +3,7 @@ package centdb.utilities;
 import centdb.DBQuery.*;
 import centdb.LogManagement;
 import centdb.TransactionProcessing;
-import centdb.dbquery.UpdateQuery;
+import centdb.DBQuery.UpdateQuery;
 import centdb.usermodule.UserModule;
 
 import java.io.IOException;
@@ -26,6 +26,8 @@ public class WriteQueries {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the database name");
         String database = scanner.nextLine();
+        long startTime, endTime, executionTime;
+        
         do {
             System.out.println("Enter the Query");
             String query = scanner.nextLine();
@@ -35,39 +37,71 @@ public class WriteQueries {
 
             switch (check) {
                 case "begin":
-                    TransactionProcessing.queryIdentify(query);
+                    TransactionProcessing.queryIdentify(query, userId, database);
                     break;
                 case "select":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     select.selectQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "insert":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     insert.insertQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "update":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     update.updateQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "drop":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     drop.dropQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "delete":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     delete.deleteQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "use":
                     LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
                     useDatabase.useDatabaseQuery(query);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "create":
                     if (words.get(1).equals("table")) {
                         LogManagement.queryLogs(query, userId, database);
+                        startTime = System.currentTimeMillis();
                         createTable.createTableQuery(query, database);
+                        endTime = System.currentTimeMillis();
+                        executionTime = endTime - startTime;
+                        LogManagement.generalLogs(query, executionTime, userId, database);
                     } else {
                         LogManagement.queryLogs(query, userId, database);
+                        startTime = System.currentTimeMillis();
                         createDatabase.createDatabaseQuery(query);
+                        endTime = System.currentTimeMillis();
+                        executionTime = endTime - startTime;
+                        LogManagement.generalLogs(query, executionTime, userId, database);
                     }
                     break;
                 default:
