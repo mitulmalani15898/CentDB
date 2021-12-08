@@ -92,7 +92,7 @@ public class CreateTableQuery {
                                 System.out.println("Table has been created successfully!!");
                                 File tableDirectory = new File(directory + File.separator + tableName + "Directory");
                                 tableDirectory.mkdirs();
-                                File metaFile = new File(tableDirectory + File.separator + tableName + "Metadata" + ".txt");
+                                File metaFile = new File(tableDirectory + File.separator  + "Metadata" + ".txt");
                                 FileWriter writer = new FileWriter(metaFile);
                                 for (String rows1 : characterseparated) {
                                     if (flag = true) {
@@ -100,7 +100,7 @@ public class CreateTableQuery {
                                     }
                                 }
                                 writer.close();
-                                File tableFile = new File(tableDirectory + File.separator + tableName + ".txt");
+                                File tableFile = new File(tableDirectory + File.separator + "data" + ".txt");
                                 tableFile.createNewFile();
                                 FileWriter columnwriter = new FileWriter(tableFile);
                                 for(String columns : columnsname){
@@ -119,7 +119,7 @@ public class CreateTableQuery {
                     System.out.println("Table has been created successfully!!");
                     File tableDirectory = new File(directory + File.separator + tableName + "Directory");
                     tableDirectory.mkdirs();
-                    File metaFile = new File(tableDirectory + File.separator + tableName + "Metadata" + ".txt");
+                    File metaFile = new File(tableDirectory + File.separator +  "Metadata" + ".txt");
                     FileWriter writer = new FileWriter(metaFile);
                     for (String rows1 : characterseparated) {
                         if (flag = true) {
@@ -127,7 +127,7 @@ public class CreateTableQuery {
                         }
                     }
                     writer.close();
-                    File tableFile = new File(tableDirectory + File.separator + tableName + ".txt");
+                    File tableFile = new File(tableDirectory + File.separator + "data" + ".txt");
                     tableFile.createNewFile();
                     FileWriter columnwriter = new FileWriter(tableFile);
                     for(String columns : columnsname){
