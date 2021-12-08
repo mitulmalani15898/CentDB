@@ -11,7 +11,7 @@ public class ERDCreation {
     private static String filed;
     private static String fk;
     public static  void main (String[] args) throws IOException {
-        File directory = new File("databasename");
+        File directory = new File("database"+File.separator+"database1");
         File[] listOfFiles = directory.listFiles();
         List<String> tableName=new ArrayList<>();
         FileWriter myFileWriter = new FileWriter("ERD.txt");
@@ -22,11 +22,13 @@ public class ERDCreation {
             for(int j=0;j<eachFile.length;j++) {
                 if (String.valueOf(eachFile[j]).contains("Metadata")){
                 File tablemetadata = new File(String.valueOf(eachFile[j]));
-                tableName.add(String.valueOf(file).replaceAll(String.valueOf(directory), "").replaceAll("Directory", "").substring(1));
+
+                tableName.add(String.valueOf(file).replaceAll(String.valueOf(directory), "")
+                        .replaceAll("Directory", ""));
 
                     Scanner myTableReader = new Scanner(tablemetadata);
                     myFileWriter.write("\n");
-                    myFileWriter.write("TABLE NAME: "+ tableName.get(i).toUpperCase());
+                    myFileWriter.write("TABLE NAME: "+ tableName.get(i).toUpperCase().substring(String.valueOf(directory).length()+1));
                     myFileWriter.write("\n");
                     myFileWriter.write("--------------------------------------------------");
                     myFileWriter.write("\n");
@@ -41,13 +43,13 @@ public class ERDCreation {
                             fk=tabledata.substring(tabledata.indexOf("REFERENCES") +references.length()+1);
                             if(fk.contains("|")){
                             myFileWriter.write("\n");
-                            myFileWriter.write("RELATIONSHIP: table "+tableName.get(i) +" "+filed+" has  <=> with Table "+ fk);
+                            myFileWriter.write("RELATIONSHIP: table "+tableName.get(i).substring(String.valueOf(directory).length()+1) +" "+filed+" has  <=> with Table "+ fk);
+                            tableName.get(i);
                             myFileWriter.write("\n");
                         }}
                     }
                 }
                 }
-
         }
         myFileWriter.close();
         System.out.println("ERD created successfully!!!!");
