@@ -1,4 +1,4 @@
-package centdb.DBQuery;
+package centdb.dbquery;
 
 import centdb.UseDatabaseQuery;
 import centdb.utilities.ColumnDataType;
@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static centdb.DBQuery.constants.Constants.*;
+import static centdb.dbquery.constants.Constants.*;
 
 public class SelectQuery {
     ColumnDataType obj = new ColumnDataType();
