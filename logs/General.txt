@@ -1,0 +1,1 @@
+71 milliseconds --> User1 --> database --> Tables:2; Number of Records:5 --> CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));
