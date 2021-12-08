@@ -1,0 +1,16 @@
+
+TABLE NAME: CUSTOMER
+--------------------------------------------------
+DATA: customer_id|int|PRIMARY KEY
+name|varchar|255
+email|varchar|255
+address|varchar|255
+
+TABLE NAME: PRODUCT
+--------------------------------------------------
+DATA: product_id|int|PRIMARY KEY
+product_name|varchar|10
+product_price|float
+customer_id|int|REFERENCES|customer|customer_id
+
+RELATIONSHIP: table product customer_id has  <=> with Table customer|customer_id

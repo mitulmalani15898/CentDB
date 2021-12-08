@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SqlDumpGenerator {
-    public static String generateCreateQuery(File file) {
+    public String generateCreateQuery(File file) {
         StringBuilder createTableLine = new StringBuilder("CREATE TABLE " + file.getName() + " (");
         try {
             BufferedReader metaReader = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator + "metadata.txt"));
@@ -41,7 +41,7 @@ public class SqlDumpGenerator {
         return createTableLine.toString();
     }
 
-    public static void main(String[] args) {
+    public void generateSqlDump() {
         Scanner scanner = new Scanner(System.in);
         String database = "";
         System.out.println("Enter database name for exporting SQL dump:");

@@ -17,9 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DeleteQuery {
-    public static void main(String[] args) {
+    public void deleteQuery(String query, String databaseName) {
         Scanner scanner = new Scanner(System.in);
-        String query = "";
+//        String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
         query = "DELETE FROM customer WHERE customer_id=1";

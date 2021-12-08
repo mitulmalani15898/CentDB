@@ -10,11 +10,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserModule {
-    public static void main(String args[]) throws IOException {
-        UserOptions uo = new UserOptions();
-        uo.startPoint();
-    }
-
     public static void registerUser() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Create your user id to register");

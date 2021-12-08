@@ -1,9 +1,3 @@
 customer_id|name|email|address
 2|meet|meet@gmail.com|4565 Hey st
 11|manthan|moradia|quebec
-11|manthan|moradia|quebec
-11|manthan|moradia|quebec
-11|manthan|moradia|quebec
-11|manthan|moradia|quebec
-11|manthan|moradia|quebec
-11|manthan|moradia|quebec
