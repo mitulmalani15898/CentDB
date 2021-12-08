@@ -18,7 +18,7 @@ public class CreateTableQuery {
         //execute the query i.e. Call the query executer
         //***
 
-        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));";
+//        query = "CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));";
         String createTableRegex = "(CREATE\\s+TABLE)\\s+(\\S+)\\s*(\\((\\S+)\\s(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+PRIMARY KEY\\s*)?(,\\s*(\\S+)\\s+(VARCHAR|INT|FLOAT|BOOLEAN)(\\(\\d+\\))?\\s*(\\s+REFERENCES\\s+(\\S+)\\((\\S+)\\))?)*\\))";
 
         long endTime = System.currentTimeMillis();
@@ -55,7 +55,7 @@ public class CreateTableQuery {
             }
 //            System.out.println(columnsname);
             metadata.put(tableName, characterseparated);
-            File directory = new File("database" + File.separator + "database1");
+            File directory = new File("database" + File.separator + databaseName);
             String refrences = "REFERENCES";
             String foreignDirectory;
             String foreignTable;
@@ -90,9 +90,9 @@ public class CreateTableQuery {
                                 Foreginkey = rows.substring(rows.indexOf(Table) + Table.length() + 1);
                                 if (Foreginkey.equals(otherKey)) {
                                     System.out.println("Table has been created successfully!!");
-                                    File tableDirectory = new File(directory + File.separator + tableName + "Directory");
+                                    File tableDirectory = new File(directory + File.separator + tableName);
                                     tableDirectory.mkdirs();
-                                    File metaFile = new File(tableDirectory + File.separator + "Metadata" + ".txt");
+                                    File metaFile = new File(tableDirectory + File.separator + "metadata" + ".txt");
                                     FileWriter writer = new FileWriter(metaFile);
                                     for (String rows1 : characterseparated) {
                                         if (flag = true) {
@@ -117,9 +117,9 @@ public class CreateTableQuery {
                     }
                 } else {
                     System.out.println("Table has been created successfully!!");
-                    File tableDirectory = new File(directory + File.separator + tableName + "Directory");
+                    File tableDirectory = new File(directory + File.separator + tableName);
                     tableDirectory.mkdirs();
-                    File metaFile = new File(tableDirectory + File.separator + "Metadata" + ".txt");
+                    File metaFile = new File(tableDirectory + File.separator + "metadata" + ".txt");
                     FileWriter writer = new FileWriter(metaFile);
                     for (String rows1 : characterseparated) {
                         if (flag = true) {
