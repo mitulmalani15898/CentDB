@@ -1,4 +1,4 @@
-package centdb;
+package centdb.DBQuery
 
 import centdb.utilities.Common;
 

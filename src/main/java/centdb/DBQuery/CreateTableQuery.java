@@ -1,4 +1,4 @@
-package centdb;
+package centdb.DBQuery;
 
 import java.io.*;
 import java.util.*;
