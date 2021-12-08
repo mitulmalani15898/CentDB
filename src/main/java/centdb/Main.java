@@ -28,11 +28,12 @@ public class Main {
         resources.add("Name");
         resources.add("University");
         resources.add("School");
+        select.selectQuery("SELECT * FROM Product;","database");
         //update.updateQuery("update Employee set product_name = bike, product_price = 102, status = true where product_price = 56;",databaseName);
         //select.selectQuery("select id, product_name, product_price, status from Employee where product_price = 56.78;", databaseName);
 
         //ApplyLock.applyNewLock(resources);
-        ReleaseLock.releaseOldLock(resources);
+        //ReleaseLock.releaseOldLock(resources);
 
     }
 }

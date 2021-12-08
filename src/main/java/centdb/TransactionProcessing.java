@@ -1,5 +1,6 @@
 package centdb;
 
+import centdb.dbquery.SelectQuery;
 import centdb.lock.ApplyLock;
 import centdb.lock.ReleaseLock;
 import centdb.utilities.ExtractResources;
@@ -16,7 +17,7 @@ public class TransactionProcessing {
 	public static ExtractResources extract = new ExtractResources();
 	public static ApplyLock applyNewLock = new ApplyLock("database");;
 	public static ReleaseLock releaseOldLock = new ReleaseLock("database");
-
+	public static SelectQuery select = new SelectQuery();
 	public TransactionProcessing(String database){
 		applyNewLock = new ApplyLock(database);
 		releaseOldLock = new ReleaseLock(database);
@@ -24,7 +25,7 @@ public class TransactionProcessing {
 
 	//	public static void queryIdentify(String query) {
 	public static void main(String[] args) {
-		String originalQuery = "begin transaction SELECT * FROM Person; SELECT * FROM Employee; INSERT INTO table (id, name, email) VALUES (11, 'def', 'ghi'); INSERT INTO Person VALUES('Mouse', 'Micky','500 South Buena Vista Street, Burbank','California',43); DELETE from Person WHERE PersonID=3; SELECT * FROM Person; COMMIT SELECT * FROM Person;";
+		String originalQuery = "begin transaction SELECT * FROM Employee; SELECT * FROM Employee; INSERT INTO table (id, name, email) VALUES (11, 'def', 'ghi'); INSERT INTO Person VALUES('Mouse', 'Micky','500 South Buena Vista Street, Burbank','California',43); DELETE from Person WHERE PersonID=3; SELECT * FROM Employeenew; COMMIT SELECT * FROM Employeenew;";
 		String query = originalQuery.toLowerCase();
 		if(query.contains("begin transaction") || query.contains("begin tran")) {
 			if(query.contains("commit") || query.contains("rollback")) {
@@ -51,8 +52,8 @@ public class TransactionProcessing {
 					}
 				}
 				//transactionQuery=transactionQuery+" "+queryParts[index];
-				System.out.println(transactionQuery);
-				System.out.println(isTransactionQuery);
+//				System.out.println(transactionQuery);
+//				System.out.println(isTransactionQuery);
 			}
 		}
 		if(transactionQuery != null) {
@@ -79,10 +80,10 @@ public class TransactionProcessing {
 		//Perform the following operations only if the last transaction statement is "Commit".
 		//Because if the last statement is "Rollback", then there is no point in performing all these operations.
 
-		if(queries[queries.length-1].equalsIgnoreCase("commit")) {
+//		if(queries[queries.length-1].equalsIgnoreCase("commit")) {
 
 		for(int i=0;i<queries.length;i++) {
-			queries[i]=queries[i].trim();
+			queries[i]=queries[i].trim()+";";
 			System.out.println(queries[i]);
 			//queryLogs(queries[i])
 			String[] words = queries[i].split(" ");
@@ -90,7 +91,8 @@ public class TransactionProcessing {
 			switch(words[0].trim().toLowerCase()) {
 			
 			case "select":
-				System.out.println("Calling Select");
+				select.selectQuery(queries[i],"database");
+				System.out.println();
 				//select(queries[i]);
 				break;
 				
@@ -119,7 +121,7 @@ public class TransactionProcessing {
 			}
 		}
 
-	}
+	//}
 		releaseOldLock.releaseOldLock(resources);
 
 	}
