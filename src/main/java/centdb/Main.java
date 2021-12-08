@@ -8,7 +8,8 @@ import java.io.IOException;
 
 public class Main {
     public static final String databaseName = "database";
-    public static final ApplyLock applyNewLock = new ApplyLock("database");
+//    public static final ApplyLock applyNewLock = new ApplyLock("database");
+    ApplyLock applyNewLock = new ApplyLock("database");
     ReleaseLock releaseOldLock = new ReleaseLock("database");
 
     public static void main(String[] args) {

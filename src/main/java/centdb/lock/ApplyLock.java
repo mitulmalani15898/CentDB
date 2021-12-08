@@ -1,7 +1,7 @@
 package centdb.lock;
 
-import centdb.readwrite.Read;
-import centdb.readwrite.Write;
+import centdb.ReadWrite.Read;
+import centdb.ReadWrite.Write;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,7 +16,7 @@ public class ApplyLock {
     public static File lockFile;
     public static String directory;
     public ApplyLock(String directory){
-        lockFile = new File(directory+"/"+"LockFile.txt");
+        lockFile = new File("database/"+directory+"/"+"LockFile.txt");
         this.directory = directory;
         try {
             lockFile.createNewFile();
@@ -48,7 +48,7 @@ public class ApplyLock {
                     temp+=resource+"\n";
                 }
             }
-            FileWriter writer = new FileWriter(directory+"/"+"LockFile.txt");
+            FileWriter writer = new FileWriter("database/"+directory+"/"+"LockFile.txt");
             writer.write(temp);
             writer.close();
         } catch (IOException | LockException e) {

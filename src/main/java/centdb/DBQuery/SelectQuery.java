@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static centdb.dbquery.constants.Constants.*;
+import static centdb.DBQuery.constants.Constants.*;
 
 public class SelectQuery {
     ColumnDataType obj = new ColumnDataType();

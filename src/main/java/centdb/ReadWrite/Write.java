@@ -1,4 +1,4 @@
-package centdb.readwrite;
+package centdb.ReadWrite;
 
 import java.io.FileWriter;
 import java.io.IOException;

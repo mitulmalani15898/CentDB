@@ -1,29 +1,45 @@
 package centdb;
 
+import centdb.DBQuery.CreateDatabaseQuery;
+import centdb.DBQuery.CreateTableQuery;
+import centdb.DBQuery.DeleteQuery;
+import centdb.DBQuery.DropQuery;
+import centdb.DBQuery.InsertQuery;
 import centdb.DBQuery.SelectQuery;
+import centdb.DBQuery.UpdateQuery;
+import centdb.DBQuery.UseDatabaseQuery;
 import centdb.lock.ApplyLock;
 import centdb.lock.ReleaseLock;
 import centdb.utilities.ExtractResources;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionProcessing {
+	
+	private static SelectQuery select = new SelectQuery();
+    private static UpdateQuery update = new UpdateQuery();
+    private static InsertQuery insert = new InsertQuery();
+    private static DropQuery drop = new DropQuery();
+    private static DeleteQuery delete = new DeleteQuery();
+    private static UseDatabaseQuery useDatabase = new UseDatabaseQuery();
+    private static CreateDatabaseQuery createDatabase = new CreateDatabaseQuery();
+    private static CreateTableQuery createTable = new CreateTableQuery();
+    
     public static boolean isTransactionQuery = false;
     public static String transactionQuery = "";
-    //	public static ArrayList<String> queries = new ArrayList<String>();
+
     public static ExtractResources extract = new ExtractResources();
     public static ApplyLock applyNewLock = new ApplyLock("database");
-    ;
     public static ReleaseLock releaseOldLock = new ReleaseLock("database");
-    public static SelectQuery select = new SelectQuery();
 
     public TransactionProcessing(String database) {
         applyNewLock = new ApplyLock(database);
         releaseOldLock = new ReleaseLock(database);
     }
 
-    public static void queryIdentify(String query1) {
+    public static void queryIdentify(String query1, String userId, String database) {
 //        String originalQuery = "begin transaction SELECT * FROM Employee; SELECT * FROM Employee; INSERT INTO table (id, name, email) VALUES (11, 'def', 'ghi'); INSERT INTO Person VALUES('Mouse', 'Micky','500 South Buena Vista Street, Burbank','California',43); DELETE from Person WHERE PersonID=3; SELECT * FROM Employeenew; COMMIT SELECT * FROM Employeenew;";
         String originalQuery = query1;
         String query = originalQuery.toLowerCase();
@@ -51,18 +67,23 @@ public class TransactionProcessing {
                     }
                 }
                 //transactionQuery=transactionQuery+" "+queryParts[index];
-//				System.out.println(transactionQuery);
-//				System.out.println(isTransactionQuery);
+				System.out.println("Is this a Transaction Query: "+isTransactionQuery);
+				System.out.println("The Transaction Query is:\r\n"+transactionQuery);
             }
         }
         if (transactionQuery != null) {
 
-            processTransaction(transactionQuery);
+            try {
+				processTransaction(transactionQuery, userId, database);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
-    public static void processTransaction(String query) {
-        String[] queries = query.split(";");
+    public static void processTransaction(String query2, String userId, String database) throws IOException {
+    	long startTime, endTime, executionTime;
+        String[] queries = query2.split(";");
         List<String> resources = new ArrayList<>();
         for (String q : queries) {
 
@@ -84,39 +105,79 @@ public class TransactionProcessing {
         for (int i = 0; i < queries.length; i++) {
             queries[i] = queries[i].trim() + ";";
             System.out.println(queries[i]);
-            //queryLogs(queries[i])
-            String[] words = queries[i].split(" ");
+            String query = queries[i];
+            String[] words = query.split(" ");
 
             switch (words[0].trim().toLowerCase()) {
+            
+            case "select":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                select.selectQuery(query, database);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "insert":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                insert.insertQuery(query, database);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "update":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                update.updateQuery(query, database);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "drop":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                drop.dropQuery(query, database);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "delete":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                delete.deleteQuery(query, database);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "use":
+                LogManagement.queryLogs(query, userId, database);
+                startTime = System.currentTimeMillis();
+                useDatabase.useDatabaseQuery(query);
+                endTime = System.currentTimeMillis();
+                executionTime = endTime - startTime;
+                LogManagement.generalLogs(query, executionTime, userId, database);
+                break;
+            case "create":
+                if (words[1].trim().toLowerCase().equals("table")) {
+                    LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
+                    createTable.createTableQuery(query, database);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
+                } else {
+                    LogManagement.queryLogs(query, userId, database);
+                    startTime = System.currentTimeMillis();
+                    createDatabase.createDatabaseQuery(query);
+                    endTime = System.currentTimeMillis();
+                    executionTime = endTime - startTime;
+                    LogManagement.generalLogs(query, executionTime, userId, database);
+                }
+                break;
+            default:
+                System.out.println("Invalid Input");
 
-                case "select":
-                    select.selectQuery(queries[i], "database");
-                    System.out.println();
-                    //select(queries[i]);
-                    break;
-
-                case "update":
-                    System.out.println("Calling Update");
-                    break;
-
-                case "create":
-                    System.out.println("Calling Create Table");
-                    break;
-
-                case "delete":
-                    System.out.println("Calling Delete");
-                    break;
-
-                case "drop":
-                    System.out.println("Calling Drop");
-                    break;
-
-                case "insert":
-                    System.out.println("Calling Insert");
-                    break;
-
-                default:
-                    System.out.println("No Case Matched");
             }
         }
 
