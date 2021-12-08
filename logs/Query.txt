@@ -1,1 +1,1 @@
-Mon, 06 Dec 2021 21:33:58 --> User1 --> CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));
+Wed, 08 Dec 2021 00:19:41 --> User1 --> database --> CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));
