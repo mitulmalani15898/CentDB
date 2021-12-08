@@ -1,5 +1,7 @@
 package centdb.DBQuery;
 
+import centdb.LogManagement;
+import centdb.usermodule.UserModule;
 import centdb.utilities.Common;
 
 import java.io.BufferedReader;
@@ -49,6 +51,7 @@ public class DeleteQuery {
                                 if (columnValue.equals(singleData.get(index))) {
                                     fileData.remove(i);
                                     System.out.println("Record deleted successfully.");
+                                    LogManagement.eventLogs(query, UserModule.loginUserId, databaseName, tableName);
                                     break;
                                 }
                             }

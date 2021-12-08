@@ -1,5 +1,7 @@
 package centdb.DBQuery;
 
+import centdb.LogManagement;
+import centdb.usermodule.UserModule;
 import centdb.utilities.Common;
 
 import java.io.*;
@@ -119,6 +121,7 @@ public class InsertQuery {
                                 fileWriter.append("\n");
                                 fileWriter.close();
                                 System.out.println("Record inserted successfully.");
+                                LogManagement.eventLogs(query, UserModule.loginUserId, databaseName, tableName);
                             }
                         } else {
                             System.out.println("Please provide valid insert query.");

@@ -1,13 +1,16 @@
 package centdb.DBQuery;
 
+import centdb.LogManagement;
+import centdb.usermodule.UserModule;
 import centdb.utilities.Common;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DropQuery {
-    public void dropQuery(String query, String databaseName) {
+    public void dropQuery(String query, String databaseName) throws IOException {
         String insertRegex = "(DROP\\s+TABLE)\\s+(\\S+)\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
@@ -30,6 +33,7 @@ public class DropQuery {
                     }
                     if (tableDirectory.delete()) {
                         System.out.println("Dropped table '" + tableName + "'");
+                        LogManagement.eventLogs(query, UserModule.loginUserId, databaseName, tableName);
                     } else {
                         System.out.println("Something went wrong while deleting table.");
                     }
