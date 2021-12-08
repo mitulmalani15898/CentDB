@@ -1,7 +1,7 @@
-package centdb.dbquery;
+package centdb.DBQuery;
 
 import centdb.utilities.ColumnDataType;
-import static centdb.dbquery.constants.Constants.*;
+import static centdb.DBQuery.constants.Constants.*;
 
 import java.io.*;
 import java.util.ArrayList;

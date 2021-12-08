@@ -1,7 +1,7 @@
 package centdb.lock;
 
-import centdb.readwrite.Read;
-import centdb.readwrite.Write;
+import centdb.ReadWrite.Read;
+import centdb.ReadWrite.Write;
 
 import java.io.File;
 import java.io.FileWriter;
