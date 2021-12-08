@@ -1,6 +1,6 @@
 package centdb.dbquery;
 
-import centdb.UseDatabaseQuery;
+
 import centdb.utilities.ColumnDataType;
 
 import java.io.*;
@@ -35,7 +35,7 @@ public class SelectQuery {
                 if(directory.exists()) {
 
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"/data.txt"));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         for(String col: tableColumnNames){
@@ -118,11 +118,11 @@ public class SelectQuery {
                     }
                 }
                 tableName = ls.get(ls.indexOf("from")+1);
-                File directory = new File(database+"/"+tableName);
+                File directory = new File("database/"+database+"/"+tableName+"/data.txt");
                 if(directory.exists()){
 
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"data.txt"));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         int [] track = new int [selectColumns.size()];
