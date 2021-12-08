@@ -1,6 +1,5 @@
-package centdb.dbquery;
+package centdb.DBQuery;
 
-import centdb.UseDatabaseQuery;
 import centdb.utilities.ColumnDataType;
 
 import java.io.*;

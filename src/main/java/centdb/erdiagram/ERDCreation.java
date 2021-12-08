@@ -1,4 +1,4 @@
-package centdb.DBQuery;
+package centdb.erdiagram;
 
 import java.io.File;
 import java.io.FileWriter;

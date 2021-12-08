@@ -1,14 +1,13 @@
 package centdb.usermodule;
 
-//import centdb.ERDCreation;
-import centdb.DBQuery.ERDCreation;
+import centdb.erdiagram.ERDCreation;
 import centdb.sqldump.SqlDumpGenerator;
 import centdb.utilities.WriteQueries;
 
 import java.io.IOException;
 
 public class MenuOperation {
-    public void performOperation(int choice) {
+    public void performOperation(int choice) throws IOException {
         switch (choice) {
             case 1:
                 //Writing queries

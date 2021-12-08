@@ -1,12 +1,9 @@
 package centdb.utilities;
 
-import centdb.DBQuery.DeleteQuery;
-import centdb.DBQuery.DropQuery;
-import centdb.DBQuery.InsertQuery;
-import centdb.DBQuery.UseDatabaseQuery;
-import centdb.dbquery.SelectQuery;
+import centdb.DBQuery.*;
 import centdb.dbquery.UpdateQuery;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -18,18 +15,18 @@ public class WriteQueries {
     private static DropQuery drop = new DropQuery();
     private static DeleteQuery delete = new DeleteQuery();
     private static UseDatabaseQuery useDatabase = new UseDatabaseQuery();
+    private static CreateDatabaseQuery createDatabase = new CreateDatabaseQuery();
+    private static CreateTableQuery createTable = new CreateTableQuery();
 
-    public static void writeQuery() {
+    public static void writeQuery() throws IOException {
         String choice = "";
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the database name");
+        String database = scanner.nextLine();
         do {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the database name");
-            String database = scanner.nextLine();
             System.out.println("Enter the Query");
             String query = scanner.nextLine();
-
             List<String> words = Arrays.asList(query.split(" "));
-
             String check = words.get(0).trim().toLowerCase();
 
             switch (check) {
@@ -53,9 +50,9 @@ public class WriteQueries {
                     break;
                 case "create":
                     if (words.get(1).equals("table")) {
-                        System.out.println("create table");
+                        createTable.createTableQuery(query, database);
                     } else {
-                        System.out.println("create database");
+                        createDatabase.createDatabaseQuery(query, database);
                     }
                     break;
                 default:

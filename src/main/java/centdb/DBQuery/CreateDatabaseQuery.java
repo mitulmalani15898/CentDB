@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateDatabaseQuery {
-    public static void main(String[] args) {
+    public void createDatabaseQuery(String query, String databaseName) {
         Scanner scanner = new Scanner(System.in);
-        String query = "";
+//        String query = "";
         // System.out.println("Enter query:");
         // query = scanner.nextLine();
         query = "CREATE DATABASE database1;";
@@ -20,9 +20,9 @@ public class CreateDatabaseQuery {
             // Group 1 - CREATE DATABASE
             // Group 2 - databasename
             createDatabaseName = matcher.group(2);
-            createDatabaseName=createDatabaseName.replaceAll(";","");
+            createDatabaseName = createDatabaseName.replaceAll(";", "");
             System.out.println(createDatabaseName);
-            File directory = new File("database"+File.separator+createDatabaseName);
+            File directory = new File("database" + File.separator + createDatabaseName);
             if (directory.exists()) {
                 System.out.println("Directory already exist.");
             } else {

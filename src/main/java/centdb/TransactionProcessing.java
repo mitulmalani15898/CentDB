@@ -1,14 +1,12 @@
 package centdb;
 
-import centdb.dbquery.SelectQuery;
+import centdb.DBQuery.SelectQuery;
 import centdb.lock.ApplyLock;
 import centdb.lock.ReleaseLock;
 import centdb.utilities.ExtractResources;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TransactionProcessing {
 	public static boolean isTransactionQuery = false;

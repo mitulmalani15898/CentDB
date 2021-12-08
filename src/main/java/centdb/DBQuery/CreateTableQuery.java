@@ -1,4 +1,4 @@
-package centdb;
+package centdb.DBQuery;
 
 import java.io.*;
 import java.util.*;
@@ -8,9 +8,10 @@ import java.util.regex.Pattern;
 public class CreateTableQuery {
     public static boolean flag;
     public static String otherKey;
-    public static void main(String[] args) throws IOException {
+
+    public void createTableQuery(String query, String databaseName) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String query = "";
+//        String query = "";
 
         //***
         long startTime = System.currentTimeMillis();
@@ -35,14 +36,14 @@ public class CreateTableQuery {
             columnValues = matcher.group(3);
             List<String> values = Arrays.asList(columnValues.split(","));
             List<String> pipeseparated = new ArrayList<>();
-            List<String> characterseparated=new ArrayList<>();
-            List<String>columnsname=new ArrayList<>();
-            HashMap<String,List<String>> metadata=new HashMap<>();
+            List<String> characterseparated = new ArrayList<>();
+            List<String> columnsname = new ArrayList<>();
+            HashMap<String, List<String>> metadata = new HashMap<>();
             for (int i = 0; i < values.size(); i++) {
                 if (values.get(i).contains("PRIMARY")) {
-                    String WithoutPk= values.get(i) .substring(1, values.get(i).lastIndexOf( "PRIMARY"));
-                    String WPk= values.get(i).substring(values.get(i).lastIndexOf( "PRIMARY" ));
-                    pipeseparated.add(((WithoutPk.replaceAll("[\\\\[\\\\](]","|").replaceAll(" ","|").replaceAll("[\\\\[\\\\])]",""))+WPk));
+                    String WithoutPk = values.get(i).substring(1, values.get(i).lastIndexOf("PRIMARY"));
+                    String WPk = values.get(i).substring(values.get(i).lastIndexOf("PRIMARY"));
+                    pipeseparated.add(((WithoutPk.replaceAll("[\\\\[\\\\](]", "|").replaceAll(" ", "|").replaceAll("[\\\\[\\\\])]", "")) + WPk));
 
                 } else {
                     pipeseparated.add(values.get(i).replaceAll(" ", "|"));
@@ -50,76 +51,75 @@ public class CreateTableQuery {
             }
             for (int i = 0; i < pipeseparated.size(); i++) {
                 characterseparated.add(pipeseparated.get(i).replaceAll("[\\\\[\\\\](]", "|").replaceAll("[\\\\[\\\\])]", ""));
-                columnsname.add(pipeseparated.get(i).substring(0,pipeseparated.get(i).indexOf("|")));
+                columnsname.add(pipeseparated.get(i).substring(0, pipeseparated.get(i).indexOf("|")));
             }
 //            System.out.println(columnsname);
-            metadata.put(tableName,characterseparated);
-            File directory = new File("database"+File.separator+"database1");
-            String refrences="REFERENCES";
+            metadata.put(tableName, characterseparated);
+            File directory = new File("database" + File.separator + "database1");
+            String refrences = "REFERENCES";
             String foreignDirectory;
             String foreignTable;
             String Table;
             String Foreginkey = null;
             if (directory.exists()) {
-                String checking=characterseparated.toString();
-                if (checking.contains("REFERENCES")){
-                for(String rows: characterseparated) {
+                String checking = characterseparated.toString();
+                if (checking.contains("REFERENCES")) {
+                    for (String rows : characterseparated) {
 
-                    if(rows.contains("REFERENCES")){
-                        foreignDirectory=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Directory";
-                        foreignTable=rows.substring(rows.indexOf("REFERENCES")+refrences.length()+1, rows.lastIndexOf("|")) + "Metadata";
+                        if (rows.contains("REFERENCES")) {
+                            foreignDirectory = rows.substring(rows.indexOf("REFERENCES") + refrences.length() + 1, rows.lastIndexOf("|")) + "Directory";
+                            foreignTable = rows.substring(rows.indexOf("REFERENCES") + refrences.length() + 1, rows.lastIndexOf("|")) + "Metadata";
 //                        System.out.println(directory+File.separator+foreignDirectory+File.separator+foreignTable+".txt");
-                        boolean check = new File(directory+File.separator+foreignDirectory+File.separator+foreignTable+".txt").exists();
+                            boolean check = new File(directory + File.separator + foreignDirectory + File.separator + foreignTable + ".txt").exists();
 //                        System.out.println(check);
-                        if(!check){
-                            flag=false;
-                            System.out.println("File table doesnot exists so table not created");
-                            break;
-                        }
-                        else {
-                            File ForeignFile = new File(directory + File.separator + foreignDirectory + File.separator + foreignTable + ".txt");
-                            Scanner myReader = new Scanner(ForeignFile);
-                            while (myReader.hasNextLine()) {
-                                String data = myReader.nextLine();
-                                if (data.contains("PRIMARY")) {
-                                    otherKey = data.substring(0, data.indexOf("|"));
-                                }
-                            }
-
-                            Table = rows.substring(rows.indexOf("REFERENCES") + refrences.length() + 1, rows.lastIndexOf("|"));
-                            Foreginkey = rows.substring(rows.indexOf(Table) + Table.length() + 1);
-                            if (Foreginkey.equals(otherKey)){
-                                System.out.println("Table has been created successfully!!");
-                                File tableDirectory = new File(directory + File.separator + tableName + "Directory");
-                                tableDirectory.mkdirs();
-                                File metaFile = new File(tableDirectory + File.separator  + "Metadata" + ".txt");
-                                FileWriter writer = new FileWriter(metaFile);
-                                for (String rows1 : characterseparated) {
-                                    if (flag = true) {
-                                        writer.write(rows1 + System.lineSeparator());
+                            if (!check) {
+                                flag = false;
+                                System.out.println("File table doesnot exists so table not created");
+                                break;
+                            } else {
+                                File ForeignFile = new File(directory + File.separator + foreignDirectory + File.separator + foreignTable + ".txt");
+                                Scanner myReader = new Scanner(ForeignFile);
+                                while (myReader.hasNextLine()) {
+                                    String data = myReader.nextLine();
+                                    if (data.contains("PRIMARY")) {
+                                        otherKey = data.substring(0, data.indexOf("|"));
                                     }
                                 }
-                                writer.close();
-                                File tableFile = new File(tableDirectory + File.separator + "data" + ".txt");
-                                tableFile.createNewFile();
-                                FileWriter columnwriter = new FileWriter(tableFile);
-                                for(String columns : columnsname){
-                                    columnwriter.write(columns + "|");
-                                }
-                                columnwriter.close();
-                            }
-                            else {
-                                System.out.println("Foreign key doesnot match");
-                            }
-                        }
-                        break;
-                    }
 
-                }}else{
+                                Table = rows.substring(rows.indexOf("REFERENCES") + refrences.length() + 1, rows.lastIndexOf("|"));
+                                Foreginkey = rows.substring(rows.indexOf(Table) + Table.length() + 1);
+                                if (Foreginkey.equals(otherKey)) {
+                                    System.out.println("Table has been created successfully!!");
+                                    File tableDirectory = new File(directory + File.separator + tableName + "Directory");
+                                    tableDirectory.mkdirs();
+                                    File metaFile = new File(tableDirectory + File.separator + "Metadata" + ".txt");
+                                    FileWriter writer = new FileWriter(metaFile);
+                                    for (String rows1 : characterseparated) {
+                                        if (flag = true) {
+                                            writer.write(rows1 + System.lineSeparator());
+                                        }
+                                    }
+                                    writer.close();
+                                    File tableFile = new File(tableDirectory + File.separator + "data" + ".txt");
+                                    tableFile.createNewFile();
+                                    FileWriter columnwriter = new FileWriter(tableFile);
+                                    for (String columns : columnsname) {
+                                        columnwriter.write(columns + "|");
+                                    }
+                                    columnwriter.close();
+                                } else {
+                                    System.out.println("Foreign key doesnot match");
+                                }
+                            }
+                            break;
+                        }
+
+                    }
+                } else {
                     System.out.println("Table has been created successfully!!");
                     File tableDirectory = new File(directory + File.separator + tableName + "Directory");
                     tableDirectory.mkdirs();
-                    File metaFile = new File(tableDirectory + File.separator +  "Metadata" + ".txt");
+                    File metaFile = new File(tableDirectory + File.separator + "Metadata" + ".txt");
                     FileWriter writer = new FileWriter(metaFile);
                     for (String rows1 : characterseparated) {
                         if (flag = true) {
@@ -130,16 +130,18 @@ public class CreateTableQuery {
                     File tableFile = new File(tableDirectory + File.separator + "data" + ".txt");
                     tableFile.createNewFile();
                     FileWriter columnwriter = new FileWriter(tableFile);
-                    for(String columns : columnsname){
+                    for (String columns : columnsname) {
                         columnwriter.write(columns + "|");
                     }
                     columnwriter.close();
                 }
 
-            }else{
+            } else {
                 System.out.println("directory not exists");
             }
-        }}}
+        }
+    }
+}
 
 
 
