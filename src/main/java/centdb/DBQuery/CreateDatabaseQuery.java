@@ -1,6 +1,4 @@
-package centdb;
-
-import centdb.utilities.Common;
+package centdb.DBQuery;
 
 import java.io.File;
 import java.util.Scanner;
