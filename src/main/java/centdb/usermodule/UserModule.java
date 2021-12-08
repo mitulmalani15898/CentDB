@@ -49,7 +49,7 @@ public class UserModule {
         flag = authenticateUser(performEncryption(userId), performEncryption(passWord), securityAnswer);
         if(flag == true) {
             MenuOptions menuOptions = new MenuOptions();
-            menuOptions.options();
+            menuOptions.options(userId);
 
         } else {
             System.out.println("Username or password is incorrect");

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class MenuOptions {
-    public void options() throws IOException {
+    public void options(String userName) throws IOException {
 
         MenuOperation menuOperation = new MenuOperation();
         System.out.println("Choose one of the below operations to perform");
@@ -16,12 +16,12 @@ public class MenuOptions {
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
 
-        menuOperation.performOperation(choice);
+        menuOperation.performOperation(choice, userName);
         System.out.println("Do you want to continue with other options, type yes or no");
         Scanner s = new Scanner(System.in);
         String continueWithOtherChoice = s.nextLine();
         if(continueWithOtherChoice.equals("yes")){
-            options();
+            options(userName);
             s.close();
         } else {
             System.out.println("Thank you for using our cent DB");
