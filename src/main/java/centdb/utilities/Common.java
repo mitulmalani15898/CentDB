@@ -1,19 +1,16 @@
 package centdb.utilities;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 public class Common {
     public static String getTablesFilePathFromDatabase(File directory, String tableName) {
         File[] files = directory.listFiles();
-        String fileName = "";
+        String filePath = "";
         for (File file : files) {
-            List<String> filename = Arrays.asList(file.getName().split("\\."));
-            if (tableName.equals(filename.get(0))) {
-                fileName = file.getAbsolutePath();
+            if (tableName.equals(file.getName())) {
+                filePath = file.getAbsolutePath();
             }
         }
-        return fileName;
+        return filePath;
     }
 }
