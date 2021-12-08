@@ -121,7 +121,7 @@ public class SelectQuery {
                 if(directory.exists()){
 
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"data.txt"));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"/data.txt"));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         int [] track = new int [selectColumns.size()];
