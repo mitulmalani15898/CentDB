@@ -31,8 +31,10 @@ public class TransactionProcessing {
     public static String transactionQuery = "";
 
     public static ExtractResources extract = new ExtractResources();
-    public static ApplyLock applyNewLock = new ApplyLock("database");
-    public static ReleaseLock releaseOldLock = new ReleaseLock("database");
+//    public static ApplyLock applyNewLock = new ApplyLock("database");
+//    public static ReleaseLock releaseOldLock = new ReleaseLock("database");
+    public static ApplyLock applyNewLock;
+    public static ReleaseLock releaseOldLock;
 
     public TransactionProcessing(String database) {
         applyNewLock = new ApplyLock(database);
@@ -40,9 +42,10 @@ public class TransactionProcessing {
     }
 
     public static void queryIdentify(String query1, String userId, String database) {
-//        String originalQuery = "begin transaction SELECT * FROM Employee; SELECT * FROM Employee; INSERT INTO table (id, name, email) VALUES (11, 'def', 'ghi'); INSERT INTO Person VALUES('Mouse', 'Micky','500 South Buena Vista Street, Burbank','California',43); DELETE from Person WHERE PersonID=3; SELECT * FROM Employeenew; COMMIT SELECT * FROM Employeenew;";
+//        String originalQuery = "begin transaction SELECT * FROM customer; SELECT * FROM product; INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (7, bed, 68.96, 3); DELETE FROM customer WHERE customer_id=1; SELECT * FROM customer; COMMIT";
         String originalQuery = query1;
         String query = originalQuery.toLowerCase();
+        String last = "";
         if (query.contains("begin transaction") || query.contains("begin tran")) {
             if (query.contains("commit") || query.contains("rollback")) {
                 isTransactionQuery = true;
@@ -67,17 +70,21 @@ public class TransactionProcessing {
                     }
                 }
                 //transactionQuery=transactionQuery+" "+queryParts[index];
+                last = queryParts[index];
 				System.out.println("Is this a Transaction Query: "+isTransactionQuery);
 				System.out.println("The Transaction Query is:\r\n"+transactionQuery);
             }
         }
-        if (transactionQuery != null) {
+        if (transactionQuery != null && last.equalsIgnoreCase("commit")) {
 
             try {
 				processTransaction(transactionQuery, userId, database);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+        }
+        else {
+        	System.out.println("Rollbacked the Transaction Successfully");
         }
     }
 

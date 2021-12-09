@@ -4,3 +4,6 @@ product_id|product_name|product_price|customer_id
 3|laptop|999.99|114|bed|68.96|10
 4|bed|68.96|10
 5|bed|68.96|3
+7|bed|68.96|3
+15|bed|68.96|3
+12|bed|68.96|3

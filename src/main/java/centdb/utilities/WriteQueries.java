@@ -4,6 +4,8 @@ import centdb.DBQuery.*;
 import centdb.LogManagement;
 import centdb.TransactionProcessing;
 import centdb.DBQuery.UpdateQuery;
+import centdb.lock.ApplyLock;
+import centdb.lock.ReleaseLock;
 import centdb.usermodule.UserModule;
 
 import java.io.IOException;
@@ -27,7 +29,9 @@ public class WriteQueries {
         System.out.println("Enter the database name");
         String database = scanner.nextLine();
         long startTime, endTime, executionTime;
-        
+      ApplyLock applyNewLock = new ApplyLock(database);
+      ReleaseLock releaseOldLock = new ReleaseLock(database);
+      TransactionProcessing tp = new TransactionProcessing(database);
         do {
             System.out.println("Enter the Query");
             String query = scanner.nextLine();

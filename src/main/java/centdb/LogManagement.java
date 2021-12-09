@@ -26,10 +26,12 @@ public class LogManagement {
         String state = "";
         String databasePath = "./database/" + databaseName + "/";
         File[] allFiles = new File(databasePath).listFiles();
-        state = state + "Tables:" + allFiles.length;
+        int length = allFiles.length -1;
+        state = state + "Tables:" + length;
         int records = 0;
         for (int i = 0; i < allFiles.length; i++) {
 //        	System.out.println(allFiles[i]);
+        	if(! allFiles[i].getName().equalsIgnoreCase("LockFile.txt")) {
             BufferedReader readFile;
             try {
                 readFile = new BufferedReader(new FileReader(allFiles[i]+"/data.txt"));
@@ -39,6 +41,7 @@ public class LogManagement {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
         }
         records = records - allFiles.length;
         state = state + "; Number of Records:" + records;
