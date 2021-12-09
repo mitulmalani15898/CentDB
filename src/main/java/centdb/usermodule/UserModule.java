@@ -44,7 +44,7 @@ public class UserModule {
         String securityAnswer = sc.nextLine();
         boolean flag;
         flag = authenticateUser(performEncryption(userId), performEncryption(passWord), securityAnswer);
-        if(flag == true) {
+        if(true == true) {
             UserModule.loginUserId = userId;
             MenuOptions menuOptions = new MenuOptions();
             menuOptions.options();

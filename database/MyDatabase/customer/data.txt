@@ -1,5 +1,3 @@
 customer_id|name|email|address
-1|mitul|mitul@gmail.com|halifax
-2|meet|meet@gmail.com|guelph
 3|manthan|manthan@gmail.com|montreal
 10|jaynil|jaynil@gmail.com|montreal

@@ -43,3 +43,10 @@ Wed, 08 Dec 2021 18:11:34 --> mitul --> MyDatabase --> INSERT INTO product(produ
 Wed, 08 Dec 2021 18:13:16 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 10);
 Wed, 08 Dec 2021 18:23:48 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 10);
 Wed, 08 Dec 2021 18:24:08 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15);
+Wed, 08 Dec 2021 19:58:12 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15);
+Wed, 08 Dec 2021 19:58:30 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (5, bed, 68.96, 15);
+Wed, 08 Dec 2021 19:59:01 --> mitul --> MyDatabase --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (5, bed, 68.96, 3);
+Wed, 08 Dec 2021 20:00:37 --> mitul --> MyDatabase --> DELETE FROM customer WHERE customer_id=1;
+Wed, 08 Dec 2021 20:01:24 --> mitul --> MyDatabase --> DELETE FROM customer WHERE name=meet;
+Wed, 08 Dec 2021 20:03:16 --> mitul --> MyDatabase --> drop table testTable;
+Wed, 08 Dec 2021 20:03:57 --> mitul --> MyDatabase --> drop table testTable;

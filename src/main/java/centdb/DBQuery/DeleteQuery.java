@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DeleteQuery {
+    // String query = "DELETE FROM customer WHERE customer_id=1;";
     public void deleteQuery(String query, String databaseName) {
         String insertRegex = "(DELETE\\s+FROM)\\s+(\\S+)\\s+(WHERE)\\s+(\\S+)\\s*=\\s*(\\S+)\\s*\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);

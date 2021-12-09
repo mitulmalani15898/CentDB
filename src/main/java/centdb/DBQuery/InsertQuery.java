@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InsertQuery {
+    // String query = "INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15)";
     public void insertQuery(String query, String databaseName) {
         String insertRegex = "(INSERT\\s+INTO)\\s+(\\S+)\\s*\\((.*?)\\)\\s+(VALUES)\\s+\\((.*?)\\)\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);

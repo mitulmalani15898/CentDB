@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DropQuery {
+//    String query = "DROP TABLE tableName;";
     public void dropQuery(String query, String databaseName) throws IOException {
         String insertRegex = "(DROP\\s+TABLE)\\s+(\\S+)\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
