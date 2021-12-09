@@ -1,0 +1,4 @@
+product_id|int|PRIMARY KEY
+product_name|varchar|10
+product_price|float
+customer_id|int|REFERENCES|customer|customer_id

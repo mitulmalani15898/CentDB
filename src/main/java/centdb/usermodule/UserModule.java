@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserModule {
-    public static void main(String args[]) throws IOException {
-        UserOptions uo = new UserOptions();
-        uo.startPoint();
-    }
+    public static String loginUserId = "";
 
     public static void registerUser() throws IOException {
         Scanner sc = new Scanner(System.in);
@@ -48,6 +45,7 @@ public class UserModule {
         boolean flag;
         flag = authenticateUser(performEncryption(userId), performEncryption(passWord), securityAnswer);
         if(flag == true) {
+            UserModule.loginUserId = userId;
             MenuOptions menuOptions = new MenuOptions();
             menuOptions.options(userId);
 

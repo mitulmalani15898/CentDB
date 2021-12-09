@@ -13,9 +13,9 @@ public class UserOptions {
         System.out.println("Press 1 to register or else 2 to login");
         Scanner s = new Scanner(System.in);
         int u = s.nextInt();
-        if(u == 1) {
+        if (u == 1) {
             registerUser();
-        } else if(u == 2) {
+        } else if (u == 2) {
             loginUser();
         } else {
             System.out.println("Please choose between 1 and 2 options");

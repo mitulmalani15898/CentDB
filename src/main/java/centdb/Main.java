@@ -1,17 +1,23 @@
 package centdb;
 
-import centdb.DBQuery.SelectQuery;
+import centdb.lock.ApplyLock;
+import centdb.lock.ReleaseLock;
+import centdb.usermodule.UserOptions;
 
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Main {
-    public static String databaseName = "database";
+    public static final String databaseName = "database";
+//    public static final ApplyLock applyNewLock = new ApplyLock("database");
+    ApplyLock applyNewLock = new ApplyLock("database");
+    ReleaseLock releaseOldLock = new ReleaseLock("database");
+
     public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
-        System.out.println("Enter the select query");
-        String input;
-        SelectQuery select = new SelectQuery();
-//        input = scn.nextLine();
-        select.selectQuery("select id, product_name, product_price, status from Employee where product_price = 56.78;", databaseName);
+        try {
+            UserOptions uo = new UserOptions();
+            uo.startPoint();
+        } catch (IOException ioException) {
+            System.out.println(ioException.getMessage());
+        }
     }
 }

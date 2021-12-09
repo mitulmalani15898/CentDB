@@ -1,3 +1,0 @@
-id|name|email
-1|mitul|mitul@gmai.com
-2|meet|meet@gmail.com

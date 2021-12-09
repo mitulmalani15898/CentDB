@@ -1,6 +1,5 @@
 package centdb.DBQuery;
 
-import centdb.UseDatabaseQuery;
 import centdb.utilities.ColumnDataType;
 
 import java.io.*;
@@ -31,11 +30,11 @@ public class SelectQuery {
                 else{
                     tableName = ls.get(3);
                 }
-                File directory = new File(database+"/"+tableName);
+                File directory = new File("database/"+database+"/"+tableName);
                 if(directory.exists()) {
 
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(directory+"/"+tableName+".txt"));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"/data.txt"));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         for(String col: tableColumnNames){
@@ -61,7 +60,7 @@ public class SelectQuery {
                                             System.out.println();
                                         }
                                     }
-                                }else if(relation.equals(">=") && (obj.columnDataType(directory,tableName,column).equals("int") || obj.columnDataType(directory,tableName,column).equals("decimal")) ){
+                                }else if(relation.equals(">=") && (obj.columnDataType(directory,"data.txt",column).equals("int") || obj.columnDataType(directory,"data.txt",column).equals("decimal")) ){
                                     String line = null;
                                     while((line=bufferedReader.readLine())!=null){
                                         List<String> checkLine = Arrays.asList(line.split("\\|"));
@@ -72,7 +71,7 @@ public class SelectQuery {
                                             System.out.println();
                                         }
                                     }
-                                }else if(relation.equals("<=") && (obj.columnDataType(directory,tableName,column).equals("int") || obj.columnDataType(directory,tableName,column).equals("decimal"))){
+                                }else if(relation.equals("<=") && (obj.columnDataType(directory,"data.txt",column).equals("int") || obj.columnDataType(directory,"data.txt",column).equals("decimal"))){
                                     String line = null;
                                     while((line=bufferedReader.readLine())!=null){
                                         List<String> checkLine = Arrays.asList(line.split("\\|"));
@@ -118,11 +117,11 @@ public class SelectQuery {
                     }
                 }
                 tableName = ls.get(ls.indexOf("from")+1);
-                File directory = new File(database+"/"+tableName);
+                File directory = new File("database/"+database+"/"+tableName+"/data.txt");
                 if(directory.exists()){
 
                     try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(directory+"/"+tableName+".txt"));
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader("database/"+database+"/"+tableName+"/data.txt"));
                         String firstLine = bufferedReader.readLine();
                         List<String> tableColumnNames = Arrays.asList(firstLine.split("\\|"));
                         int [] track = new int [selectColumns.size()];
@@ -187,6 +186,7 @@ public class SelectQuery {
                 }
 
             }
+
 //                System.out.println("Table name: "+tableName);
         }else{
             System.out.println("Syntax error please review your query");

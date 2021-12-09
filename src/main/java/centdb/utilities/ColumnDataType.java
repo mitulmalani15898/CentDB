@@ -20,12 +20,13 @@ public class ColumnDataType {
                     return fieldDetails.get(1);
                 }
             }
+            bufferedReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        throw new IllegalStateException("No Column Found");
     }
 }
