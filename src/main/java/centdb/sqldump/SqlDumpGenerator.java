@@ -66,29 +66,31 @@ public class SqlDumpGenerator {
                 try {
                     BufferedWriter fileWriter = new BufferedWriter(new FileWriter(sqlDumpFile));
                     for (File file : files) {
-                        List<String> values;
-                        String tableName = file.getName();
-                        String createTableQuery = "";
-                        StringBuilder insertTableQuery = new StringBuilder("INSERT INTO " + tableName + " VALUES ");
-                        BufferedReader dataReader = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator + "data.txt"));
-                        line = dataReader.readLine();
-                        createTableQuery = generateCreateQuery(file);
-                        while ((line = dataReader.readLine()) != null) {
-                            values = Arrays.asList(line.split("\\|"));
-                            insertTableQuery.append("(");
-                            for (int i = 0; i < values.size(); i++) {
-                                insertTableQuery.append(values.get(i));
-                                if (i != values.size() - 1) {
-                                    insertTableQuery.append(", ");
+                        if (!file.getName().equalsIgnoreCase("LockFile.txt")) {
+                            List<String> values;
+                            String tableName = file.getName();
+                            String createTableQuery = "";
+                            StringBuilder insertTableQuery = new StringBuilder("INSERT INTO " + tableName + " VALUES ");
+                            BufferedReader dataReader = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator + "data.txt"));
+                            line = dataReader.readLine();
+                            createTableQuery = generateCreateQuery(file);
+                            while ((line = dataReader.readLine()) != null) {
+                                values = Arrays.asList(line.split("\\|"));
+                                insertTableQuery.append("(");
+                                for (int i = 0; i < values.size(); i++) {
+                                    insertTableQuery.append(values.get(i));
+                                    if (i != values.size() - 1) {
+                                        insertTableQuery.append(", ");
+                                    }
                                 }
+                                insertTableQuery.append("), ");
                             }
-                            insertTableQuery.append("), ");
+                            insertTableQuery.append(";\n");
+                            createTableQuery = createTableQuery.substring(0, createTableQuery.length() - 5) + ";\n";
+                            String insertStatement = insertTableQuery.substring(0, insertTableQuery.length() - 4) + ";\n";
+                            fileWriter.append(createTableQuery);
+                            fileWriter.append(insertStatement);
                         }
-                        insertTableQuery.append(";\n");
-                        createTableQuery = createTableQuery.substring(0, createTableQuery.length() - 5) + ";\n";
-                        String insertStatement = insertTableQuery.substring(0, insertTableQuery.length() - 4) + ";\n";
-                        fileWriter.append(createTableQuery);
-                        fileWriter.append(insertStatement);
                     }
                     fileWriter.close();
                     System.out.println("Sql dump has been created successfully.");
