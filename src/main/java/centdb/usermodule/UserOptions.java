@@ -7,7 +7,7 @@ import static centdb.usermodule.UserModule.*;
 
 public class UserOptions {
     public void startPoint() throws IOException {
-        System.out.println("\nUser console:");
+        System.out.println("User console:");
         System.out.println("1. Register");
         System.out.println("2. Login");
         System.out.println("Press 1 to register or else 2 to login");
