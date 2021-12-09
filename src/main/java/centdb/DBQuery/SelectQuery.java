@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import static centdb.DBQuery.constants.Constants.*;
 
 public class SelectQuery {
-    ColumnDataType obj = new ColumnDataType();
-    public void selectQuery(String query,String database){
+    static ColumnDataType obj = new ColumnDataType();
+    public static void selectQuery(String query,String database){
         List<String> ls = Arrays.asList(query.split(" "));
         final Instant instance = Instant.now();
         //String selectQueryRegex = "^(?i)(SELECT\\s[a-zA-Z\\d]+(,\\s[a-zA-Z\\d]+)*\\sFROM\\s[a-zA-Z\\\\d]+\\sWHERE\\s[a-zA-Z\\d]+\\s[=]\\s[a-zA-Z\\d]+;)$";
@@ -60,7 +60,7 @@ public class SelectQuery {
                                             System.out.println();
                                         }
                                     }
-                                }else if(relation.equals(">=") && (obj.columnDataType(directory,"data.txt",column).equals("int") || obj.columnDataType(directory,"data.txt",column).equals("decimal")) ){
+                                }else if(relation.equals(">=") && (obj.columnDataType(directory,"",column).equals("int") || obj.columnDataType(directory,"",column).equals("decimal")) ){
                                     String line = null;
                                     while((line=bufferedReader.readLine())!=null){
                                         List<String> checkLine = Arrays.asList(line.split("\\|"));
@@ -71,7 +71,7 @@ public class SelectQuery {
                                             System.out.println();
                                         }
                                     }
-                                }else if(relation.equals("<=") && (obj.columnDataType(directory,"data.txt",column).equals("int") || obj.columnDataType(directory,"data.txt",column).equals("decimal"))){
+                                }else if(relation.equals("<=") && (obj.columnDataType(directory,"",column).equals("int") || obj.columnDataType(directory,"",column).equals("decimal"))){
                                     String line = null;
                                     while((line=bufferedReader.readLine())!=null){
                                         List<String> checkLine = Arrays.asList(line.split("\\|"));
@@ -193,6 +193,10 @@ public class SelectQuery {
         }
 
     }
+//    public static void main(String[] args){
+//        String str = "select * from customer where customer_id >= 100;";
+//        selectQuery(str,"MyDatabase");
+//    }
 }
 
 

@@ -8,7 +8,7 @@ public class ColumnDataType {
     public String columnDataType(File path, String tableName, String fieldName){
 
         try {
-            String filePath = path+"/"+tableName+"_Metadata"+".txt";
+            String filePath = path+"/"+tableName+"metadata"+".txt";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
             String line = null;

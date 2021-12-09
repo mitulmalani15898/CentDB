@@ -42,7 +42,7 @@ public class TransactionProcessing {
     }
 
     public static void queryIdentify(String query1, String userId, String database) {
-//        String originalQuery = "begin transaction SELECT * FROM customer; SELECT * FROM product; INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (7, bed, 68.96, 3); DELETE FROM customer WHERE customer_id=1; SELECT * FROM customer; COMMIT";
+//        String originalQuery = "begin transaction SELECT * FROM product; SELECT * FROM product; DELETE FROM customer WHERE customer_id=1; SELECT * FROM customer; COMMIT";
         String originalQuery = query1;
         String query = originalQuery.toLowerCase();
         String last = "";

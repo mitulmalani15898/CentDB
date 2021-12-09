@@ -22,16 +22,18 @@ public class WriteQueries {
     private static UseDatabaseQuery useDatabase = new UseDatabaseQuery();
     private static CreateDatabaseQuery createDatabase = new CreateDatabaseQuery();
     private static CreateTableQuery createTable = new CreateTableQuery();
+    public static String databaseSave;
 
     public static void writeQuery() throws IOException {
         String choice = "";
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the database name");
         String database = scanner.nextLine();
+        databaseSave = database;
         long startTime, endTime, executionTime;
-      ApplyLock applyNewLock = new ApplyLock(database);
-      ReleaseLock releaseOldLock = new ReleaseLock(database);
-      TransactionProcessing tp = new TransactionProcessing(database);
+      ApplyLock applyNewLock = new ApplyLock(databaseSave);
+      ReleaseLock releaseOldLock = new ReleaseLock(databaseSave);
+      TransactionProcessing tp = new TransactionProcessing(databaseSave);
         do {
             System.out.println("Enter the Query");
             String query = scanner.nextLine();
@@ -44,12 +46,12 @@ public class WriteQueries {
                     TransactionProcessing.queryIdentify(query, userId, database);
                     break;
                 case "select":
-                    LogManagement.queryLogs(query, userId, database);
+                    LogManagement.queryLogs(query, userId, databaseSave);
                     startTime = System.currentTimeMillis();
-                    select.selectQuery(query, database);
+                    select.selectQuery(query, databaseSave);
                     endTime = System.currentTimeMillis();
                     executionTime = endTime - startTime;
-                    LogManagement.generalLogs(query, executionTime, userId, database);
+                    LogManagement.generalLogs(query, executionTime, userId, databaseSave);
                     break;
                 case "insert":
                     LogManagement.queryLogs(query, userId, database);
@@ -60,12 +62,12 @@ public class WriteQueries {
                     LogManagement.generalLogs(query, executionTime, userId, database);
                     break;
                 case "update":
-                    LogManagement.queryLogs(query, userId, database);
+                    LogManagement.queryLogs(query, userId, databaseSave);
                     startTime = System.currentTimeMillis();
-                    update.updateQuery(query, database);
+                    update.updateQuery(query, databaseSave);
                     endTime = System.currentTimeMillis();
                     executionTime = endTime - startTime;
-                    LogManagement.generalLogs(query, executionTime, userId, database);
+                    LogManagement.generalLogs(query, executionTime, userId, databaseSave);
                     break;
                 case "drop":
                     LogManagement.queryLogs(query, userId, database);

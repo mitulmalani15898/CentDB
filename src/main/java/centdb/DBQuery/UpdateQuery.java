@@ -100,9 +100,12 @@ public class UpdateQuery {
                     }
                     temp += "\n";
                 }
-
+                File file = new File(directory+"/data.txt");
+                file.delete();
                 writer.write(temp);
-
+                File file2 = new File(directory+"/datanew.txt");
+                File file3 = new File(directory+"/data.txt");
+                file2.renameTo(file3);
                 writer.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -113,5 +116,9 @@ public class UpdateQuery {
         }
 
     }
+//    public static void main(String []args){
+//        String update = "update customer set name = chandan where customer_id = 50;";
+//        updateQuery(update,"MyDatabase");
+//    }
 
 }
