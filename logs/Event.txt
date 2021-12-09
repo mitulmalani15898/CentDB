@@ -1,0 +1,4 @@
+Wed, 08 Dec 2021 19:59:01 --> mitul --> MyDatabase --> product --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (5, bed, 68.96, 3);
+Wed, 08 Dec 2021 20:00:37 --> mitul --> MyDatabase --> customer --> DELETE FROM customer WHERE customer_id=1;
+Wed, 08 Dec 2021 20:01:24 --> mitul --> MyDatabase --> customer --> DELETE FROM customer WHERE name=meet;
+Wed, 08 Dec 2021 20:03:57 --> mitul --> MyDatabase --> testTable --> drop table testTable;

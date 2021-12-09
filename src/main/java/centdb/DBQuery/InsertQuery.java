@@ -1,5 +1,7 @@
 package centdb.DBQuery;
 
+import centdb.LogManagement;
+import centdb.usermodule.UserModule;
 import centdb.utilities.Common;
 
 import java.io.*;
@@ -10,10 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InsertQuery {
+    // String query = "INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15)";
     public void insertQuery(String query, String databaseName) {
-//        String query = "INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15)";
-
-        String insertRegex = "(INSERT\\s+INTO)\\s+(\\S+)\\s*\\((.*?)\\)\\s+(VALUES)\\s+\\((.*?)\\)\\;?";
+        String insertRegex = "(INSERT\\s+INTO)\\s+(\\S+)\\s*\\((.*?)\\)\\s+(VALUES)\\s+\\((.*?)\\)\\;";
         Pattern regex = Pattern.compile(insertRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = regex.matcher(query);
         if (matcher.find()) {
@@ -30,7 +31,7 @@ public class InsertQuery {
             columns = Arrays.asList(columnNames.split(","));
             values = Arrays.asList(columnValues.split(","));
 
-            File directory = new File("database\\MyDatabase");
+            File directory = new File("database" + File.separator + databaseName);
             if (directory.exists()) {
                 filePath = Common.getTablesFilePathFromDatabase(directory, tableName);
                 if (!filePath.isEmpty()) {
@@ -112,14 +113,16 @@ public class InsertQuery {
                             } else if (invalidSize) {
                                 System.out.println("The size of data should match with column definition.");
                             } else if (primaryKeyViolation) {
-                                System.out.println("There should not be duplicate values for primary key.");
+                                System.out.println("There should not be duplicate values for column with primary key.");
                             } else if (foreignKeyViolation) {
                                 System.out.println("There must be value for reference in referenced table.");
                             } else {
-                                BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath + "\\data.txt", true));
+                                BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath + File.separator + "data.txt", true));
                                 fileWriter.append(columnValues.replaceAll(",", "|"));
                                 fileWriter.append("\n");
                                 fileWriter.close();
+                                System.out.println("Record inserted successfully.");
+                                LogManagement.eventLogs(query, UserModule.loginUserId, databaseName, tableName);
                             }
                         } else {
                             System.out.println("Please provide valid insert query.");
@@ -136,6 +139,5 @@ public class InsertQuery {
         } else {
             System.out.println("Please provide valid insert query.");
         }
-
     }
 }

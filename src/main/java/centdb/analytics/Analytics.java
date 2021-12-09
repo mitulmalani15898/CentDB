@@ -26,7 +26,7 @@ public class Analytics {
     }
 
     public static void countUpdateQueries(String userName) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader("./logs/Events.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./logs/Event.txt"))) {
             String userLine;
             ArrayList<String> str = new ArrayList<String>();
             while((userLine = br.readLine()) != null) {

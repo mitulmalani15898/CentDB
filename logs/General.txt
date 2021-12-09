@@ -1,1 +1,8 @@
 71 milliseconds --> User1 --> database --> Tables:2; Number of Records:5 --> CREATE TABLE TestTable (PersonID int(255) PRIMARY KEY,LastName varchar(255),FirstName varchar(255) REFERENCES Animals(AnimalID),Address varchar(255),City varchar(255));
+12 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:10 --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (4, bed, 68.96, 15);
+1 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:10 --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (5, bed, 68.96, 15);
+3 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:11 --> INSERT INTO product(product_id, product_name, product_price, customer_id) VALUES (5, bed, 68.96, 3);
+4 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:10 --> DELETE FROM customer WHERE customer_id=1;
+13 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:9 --> DELETE FROM customer WHERE name=meet;
+2 milliseconds --> mitul --> MyDatabase --> Tables:3; Number of Records:9 --> drop table testTable;
+9 milliseconds --> mitul --> MyDatabase --> Tables:2; Number of Records:7 --> drop table testTable;
