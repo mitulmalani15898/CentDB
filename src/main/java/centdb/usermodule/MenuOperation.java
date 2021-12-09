@@ -33,6 +33,9 @@ public class MenuOperation {
                 analyticsObject.countAllQueries(userName);
                 analyticsObject.countUpdateQueries(userName);
                 break;
+            case 5:
+                // Log management
+                break;
             default:
                 System.out.println("Incorrect choice, please enter valid choice");
                 break;

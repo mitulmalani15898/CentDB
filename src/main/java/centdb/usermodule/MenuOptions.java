@@ -12,6 +12,7 @@ public class MenuOptions {
         System.out.println("2. Export");
         System.out.println("3. Data Model");
         System.out.println("4. Analytics");
+        System.out.println("5. Show Logs");
         System.out.println("Enter your choice");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
@@ -20,7 +21,7 @@ public class MenuOptions {
         System.out.println("Do you want to continue with other options, type yes or no");
         Scanner s = new Scanner(System.in);
         String continueWithOtherChoice = s.nextLine();
-        if(continueWithOtherChoice.equals("yes")){
+        if (continueWithOtherChoice.equals("yes")) {
             options(userName);
             s.close();
         } else {
